@@ -1,0 +1,97 @@
+/*浮动*/
+.fl{
+  float:left
+}
+.fr{
+  float:right
+}
+a{
+  display: inline-block;
+  color: #000000;
+}
+/*模态层*/
+.ivu-modal{
+  margin: 0 2.2rem;
+}
+.ivu-modal-header{
+  text-align: center;
+  font-size:1.5rem!important;
+  font-weight: 500;
+}
+.ivu-modal-body{
+  padding: 0;
+}
+.ivu-modal-footer{
+  border: none;
+  padding: 0;
+}
+/*首页模态层*/
+.select-shop{
+  max-height: 60vh;
+  margin-top: 0;
+  margin: 0 2rem;
+  overflow-y: auto;
+  .item:last-child{
+    .link{
+      border: none;
+    }
+  }
+  .link{
+    display: table;
+    width: 100%;
+    padding: 2.2rem 0;
+    line-height: 0;
+    border-bottom: 1px solid #d1d1d1;
+  }
+  .fl{
+    width: 10rem;
+    height: 9rem;
+    line-height: 1;
+    text-align: center;
+    .i-wrap{
+      padding: 1.2rem 0;
+      font-size: 0;
+      img{
+        height: 3.5rem;
+      }
+    }
+    .name{
+      color: #fff;
+      font-size: 1.6rem;
+    }
+  }
+  .txt{
+    padding-left: 2rem;
+    line-height: 9rem;
+    overflow: hidden;
+    font-size: 1.6rem;
+    color: #000;
+  }
+}
+/*下拉框字体*/
+.ivu-select-selection,.ivu-select-selected-value{
+  font-size:1.4rem!important;
+}
+/*Tab页样式修改*/
+.ivu-tabs-nav{
+  width: 100%;
+  background: #f2f2f2;
+
+}
+.ivu-tabs-bar{
+  margin-bottom: 0;
+}
+.ivu-tabs-ink-bar{
+  height: 0!important;
+}
+.ivu-tabs-tab-active{
+  color: #00bfbf!important;
+}
+.ivu-tabs-tab{
+  margin: 0!important;
+  padding: 0!important;
+  width: 33.33%;
+  height: 4.4rem!important;
+  line-height: 4.4rem;
+  text-align: center;
+}
