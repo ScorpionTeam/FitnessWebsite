@@ -100,7 +100,7 @@
         </a>
       </div>
       <div class="item">
-        <a href="" class="link" style="background: #c66fd0">
+        <a  class="link" style="background: #c66fd0" @click="skipToPage('profile')">
           <div class="i-wrap">
             <img src="../assets/team2.png" alt="">
           </div>
@@ -113,7 +113,7 @@
            >
       <ul class="select-shop">
         <li class="item">
-          <a class="link">
+          <a class="link" @click="skipToPage('private-lesson')">
             <div class="fl" style="background-color:#63d2f3;">
               <div class="i-wrap">
                 <img src="../assets/user.png" alt="">
@@ -124,7 +124,7 @@
           </a>
         </li>
         <li class="item">
-          <a class="link">
+          <a class="link" @click="skipToPage('group-lesson')">
             <div class="fl" style="background-color:#19bfaf;">
               <div class="i-wrap">
                 <img src="../assets/user.png" alt="">
@@ -161,7 +161,6 @@
             this.$router.push(name)
         },
         openModal(){
-            console.log(1);
             this.selectSubject = !this.selectSubject;
         }
       },

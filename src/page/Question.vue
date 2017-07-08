@@ -24,6 +24,12 @@
           </div>
         </div>
       </div>
+      <div class="question-editor">
+          <Input type="textarea" placeholder="简单概括你的问题" :rows="5"> </Input>
+          <div class="btns">
+            <Button class="submit">提交</Button>
+          </div>
+      </div>
       <Vfooter></Vfooter>
     </div>
 </template>
@@ -103,6 +109,20 @@
         }
       }
 
+    }
+  }
+  .question-editor {
+    margin-top: 2rem;
+    padding: 1.5rem 2rem;
+    background-color: #fff;
+    .btns{
+      margin-top: .5rem;
+      text-align: right;
+      .submit{
+        color: #fff;
+        background-color: #00bfbf;
+        font-size: 1.4rem;
+      }
     }
   }
 </style>

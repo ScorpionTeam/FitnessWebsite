@@ -23,7 +23,8 @@
       },
       methods:{
           back(){
-            this.$router.push('/index')
+            /*this.$router.push('/index')*/
+            this.$router.go(-1);
           }
       },
       created:function () {

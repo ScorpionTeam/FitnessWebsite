@@ -21,14 +21,14 @@ axios.defaults.headers['Content-Type'] = 'application/json;UTF-8'
  */
 axios.interceptors.request.use(
   config => {
-    iView.LoadingBar.start()
+  /*  iView.LoadingBar.start()*/
     /**
      * 判断当前是否有Token 如果存在就添加到请求头部
      */
-    let token = Auth.getToken()
+    /*let token = Auth.getToken()
     if (token) {
       config.headers.oauth = token
-    }
+    }*/
     return config
   },
   error => {

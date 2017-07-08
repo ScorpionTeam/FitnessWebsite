@@ -32,6 +32,121 @@
                     <th>周六</th>
                   </tr>
                   <tr>
+                    <td class="private">
+                      <span>25</span>
+                    </td>
+                    <td>
+                      <span>26</span>
+                    </td>
+                    <td>
+                      <span>1</span>
+                    </td>
+                    <td>
+                      <span>1</span>
+                    </td>
+                    <td>
+                      <span>1</span>
+                    </td>
+                    <td>
+                      <span>1</span>
+                    </td>
+                    <td>
+                      <span>1</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <span>25</span>
+                    </td>
+                    <td>
+                      <span>26</span>
+                    </td>
+                    <td>
+                      <span>1</span>
+                    </td>
+                    <td>
+                      <span>1</span>
+                    </td>
+                    <td>
+                      <span>1</span>
+                    </td>
+                    <td>
+                      <span>1</span>
+                    </td>
+                    <td>
+                      <span>1</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <span>25</span>
+                    </td>
+                    <td>
+                      <span>26</span>
+                    </td>
+                    <td>
+                      <span>1</span>
+                    </td>
+                    <td>
+                      <span>1</span>
+                    </td>
+                    <td>
+                      <span>1</span>
+                    </td>
+                    <td>
+                      <span>1</span>
+                    </td>
+                    <td>
+                      <span>1</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <span>25</span>
+                    </td>
+                    <td>
+                      <span>26</span>
+                    </td>
+                    <td>
+                      <span>1</span>
+                    </td>
+                    <td>
+                      <span>1</span>
+                    </td>
+                    <td>
+                      <span>1</span>
+                    </td>
+                    <td>
+                      <span>1</span>
+                    </td>
+                    <td>
+                      <span>1</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <span>25</span>
+                    </td>
+                    <td>
+                      <span>26</span>
+                    </td>
+                    <td>
+                      <span>1</span>
+                    </td>
+                    <td>
+                      <span>1</span>
+                    </td>
+                    <td>
+                      <span>1</span>
+                    </td>
+                    <td>
+                      <span>1</span>
+                    </td>
+                    <td>
+                      <span>1</span>
+                    </td>
+                  </tr>
+                  <tr>
                     <td>
                       <span>25</span>
                     </td>
@@ -152,6 +267,22 @@
           vertical-align: middle;
         }
       }
+    }
+    .private{
+      background-color: #008000;
+      color:#fff;
+    }
+    .group{
+      background: #fc0;
+      color:#fff;
+    }
+    .late{
+      background: #3cc;
+      color:#fff;
+    }
+    .abcend{
+      background: #f00;
+      color:#fff;
     }
   }
 </style>

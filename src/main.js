@@ -5,12 +5,14 @@ import App from './App'
 import router from './router'
 import axios from './axios'
 import iView from 'iview'
+import Mint from 'mint-ui';
 import 'iview/dist/styles/iview.css'
+import 'mint-ui/lib/style.css'
 import '../theme/index.scss'
 
 Vue.config.productionTip = false
 Vue.prototype.$http = axios
-
+Vue.use(Mint);
 Vue.use(iView);
 /* eslint-disable no-new */
 /*new Vue({
