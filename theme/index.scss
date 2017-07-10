@@ -120,11 +120,37 @@ a{
   margin-right: 0.2rem;
   background-image: url(../src/assets/i-time.png);
 }
+.i-auth {
+  width: 1.6rem;
+  height: 1.6rem;
+  background-image: url(../src/assets/i-auth.png);
+}
+.i-bag {
+  width: 1.6rem;
+  height: 1.6rem;
+  background-image: url(../src/assets/i-bag.png);
+}
+.i-message {
+  width: 1.6rem;
+  height: 1.6rem;
+  background-image: url(../src/assets/i-message.png);
+}
 .i-shop{
   width: 1.6rem;
   height: 1.5rem;
   margin-right: .5rem;
   background-image: url(../src/assets/i-shop.png);
+}
+.i-info{
+  width: 1.6rem;
+  height: 1.6rem;
+  background-image: url(../src/assets/i-info.png);
+}
+.i-phone {
+  width: 1.6rem;
+  height: 1.6rem;
+  margin-right: 1rem;
+  background-image: url(../src/assets/i-phone.png);
 }
 .i-arrow-right1 {
   width: .8rem;
@@ -183,6 +209,21 @@ a{
     &:active{
       border: none;
       outline:none;
+    }
+  }
+}
+
+/*表单Label字体*/
+.info-form{
+  .ivu-form-item-label{
+    font-size: 1.6rem!important;
+  }
+  .ivu-input{
+    border: none!important;
+    text-align: right;
+    &:hover,&:focus,&:active{
+      border: none!important;
+      box-shadow: none;
     }
   }
 }

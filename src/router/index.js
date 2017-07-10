@@ -12,6 +12,7 @@ import CourseDetail from '../page/CourseDetail.vue'
 import LessionSubmit from '../page/LessionSubmit.vue'
 import GroupLesson from '../page/GroupLesson.vue'
 import CoachDetail from '../page/CoachDetail.vue'
+import ProfileEdit from '../page/ProfileEdit.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -55,6 +56,11 @@ export default new Router({
       path:'/profile',
       name:'个人中心',
       component:Profile
+    },
+    {
+      path:'/profile-edit',
+      name:'修改信息',
+      component:ProfileEdit
     },
     {
       path:'/private-lesson',

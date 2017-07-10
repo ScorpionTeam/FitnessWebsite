@@ -1,57 +1,62 @@
 <template>
-    <div>
-      <Vheader></Vheader>
-      <div class="profile">
-        <div class="info">
-          <div class="fl">
-            <div class="avatar">
-              <img src="../assets/1.jpg" alt="">
-            </div>
-          </div>
-          <div class="rt">
-            <div class="row">姓名 : WBB</div>
-            <div class="row">性别 : 男</div>
-            <div class="row">年龄 : 18岁</div>
-            <div class="row">电话 : WBB</div>
-            <div class="row">邮箱 : WBB</div>
-            <div class="row">注册日期 : WBB</div>
-            <div class="row">课程情况 : WBBAA</div>
-            <a class="edit">
-              <i class="i-edit"></i>
-            </a>
+  <div>
+    <Vheader></Vheader>
+    <div class="profile">
+      <div class="info">
+        <div class="fl">
+          <div class="avatar">
+            <img src="../assets/1.jpg" alt="">
           </div>
         </div>
-      </div>
-      <div class="tc-data">
-        <div class="hd">体测数据(最近一次)</div>
-        <div class="bd">
-          <div class="fl">
-          </div>
-          <div class="rt">
-            <p class="p1">56KG</p>
-            <p class="p1">111BMG</p>
-            <p class="p2"><a class="link">申请体验</a></p>
-            <p class="p2"><a  class="link">进阶之路</a></p>
-            <p></p>
-          </div>
+        <div class="rt">
+          <div class="row">姓名 : WBB</div>
+          <div class="row">性别 : 男</div>
+          <div class="row">年龄 : 18岁</div>
+          <div class="row">电话 : WBB</div>
+          <div class="row">邮箱 : WBB</div>
+          <div class="row">注册日期 : WBB</div>
+          <div class="row">课程情况 : WBBAA</div>
+          <a class="edit" @click="skipToPage('profile-edit')">
+            <i class="i-edit"></i>
+          </a>
         </div>
       </div>
-      <Vfooter></Vfooter>
     </div>
+    <div class="tc-data">
+      <div class="hd">体测数据(最近一次)</div>
+      <div class="bd">
+        <div class="fl">
+        </div>
+        <div class="rt">
+          <p class="p1">56KG</p>
+          <p class="p1">111BMG</p>
+          <p class="p2"><a class="link">申请体验</a></p>
+          <p class="p2"><a  class="link">进阶之路</a></p>
+          <p></p>
+        </div>
+      </div>
+    </div>
+    <Vfooter></Vfooter>
+  </div>
 </template>
 <script>
   import Vheader from '../components/Header.vue'
   import Vfooter from '../components/Footer.vue'
   export default{
-      data(){
-          return{
+    data(){
+      return{
 
-          }
-      },
-      components:{
-          'Vheader':Vheader,
-          'Vfooter':Vfooter
       }
+    },
+    methods:{
+      skipToPage(name){
+          this.$router.push(name)
+      }
+    },
+    components:{
+      'Vheader':Vheader,
+      'Vfooter':Vfooter
+    }
   }
 </script>
 <style scoped rel='stylesheet/scss' lang='scss'>
