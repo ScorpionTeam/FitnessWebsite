@@ -6,6 +6,7 @@ import Schedule from '../page/Schedule.vue'
 import  Activitys from'../page/Activitys.vue'
 import  Question from '../page/Question.vue'
 import Login from '../components/Login.vue'
+import Register from '../page/Register.vue'
 import Profile from '../page/Profile.vue'
 import PrivateLesson from '../page/PrivateLesson.vue'
 import CourseDetail from '../page/CourseDetail.vue'
@@ -51,6 +52,11 @@ export default new Router({
       path:'/login',
       name:'登录',
       component:Login
+    },
+    {
+      path:'/register',
+      name:'注册',
+      component:Register
     },
     {
       path:'/profile',

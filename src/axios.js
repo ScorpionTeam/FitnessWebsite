@@ -13,7 +13,7 @@ import Auth from './Auth'
 
 // axios 配置
 /*正式库*/
-axios.defaults.baseURL = 'http://192.168.0.119:7001/WebApi'
+axios.defaults.baseURL = 'http://101.200.48.138:8088/Fitness'
 axios.defaults.headers['Content-Type'] = 'application/json;UTF-8'
 
 /**

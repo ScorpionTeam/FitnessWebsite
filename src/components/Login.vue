@@ -19,7 +19,7 @@
         <Button type="primary" class="btn" @click="login">登录</Button>
         </Col>
       </Row>
-      <span>忘记密码</span><span class="fr">注册账号</span>
+      <span>忘记密码</span><span class="fr" @click="skipToPage('register')">注册账号</span>
     </div>
   </div>
 </template>
@@ -55,6 +55,9 @@
                   });
                 }
             })
+        },
+        skipToPage(name){
+            this.$router.push(name)
         }
     },
     components:{
