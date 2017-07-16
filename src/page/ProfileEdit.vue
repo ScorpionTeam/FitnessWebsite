@@ -8,26 +8,33 @@
         </div>
       </div>
       <div class="info-form">
-        <Form ref="info" :model="personForm" :label-width="60">
-          <Form-item label="姓名">
+        <Form ref="info" :model="personForm" :label-width="60" :rules="rules">
+          <Form-item label="姓名" prop="name">
             <Input v-model="personForm.name"></Input>
           </Form-item>
-          <Form-item label="性别">
-            <Input v-model="personForm.name"></Input>
+          <Form-item label="性别" prop="sex">
+            <Radio-group  v-model="personForm.sex" style="float:right">
+              <Radio label="1">
+                男
+              </Radio>
+              <Radio label="0">
+                女
+              </Radio>
+            </Radio-group>
           </Form-item>
-          <Form-item label="年龄">
-            <Input v-model="personForm.name"></Input>
+          <Form-item label="年龄" prop="age">
+            <Input v-model="personForm.age" number></Input>
           </Form-item>
-          <Form-item label="电话">
-            <Input v-model="personForm.name"></Input>
+          <Form-item label="电话" prop="phone">
+            <Input v-model="personForm.phone"></Input>
           </Form-item>
-          <Form-item label="邮箱">
-            <Input v-model="personForm.name"></Input>
+          <Form-item label="邮箱" prop="email">
+            <Input v-model="personForm.email"></Input>
           </Form-item>
         </Form>
       </div>
       <div class="submit">
-        <Button class="btn">保存</Button>
+        <Button class="btn" @click="modify">保存</Button>
       </div>
     </div>
     <Vfooter></Vfooter>
@@ -36,16 +43,55 @@
 <script>
   import Vheader from '../components/Header.vue'
   import Vfooter from '../components/Footer.vue'
+  import MessageBox from '../common/component'
   export default{
     data(){
       return{
-        personForm:{}
+        personForm:{},
+        rules:{
+          name:[{required:true,message:' ',trigger: 'blur'}],
+          sex:[{required:true,message:' ',trigger: 'blur'}],
+          phone:[{required:true,message:' ',trigger: 'blur'}],
+          email:[{required:true,message:' ',trigger: 'blur'}],
+          age:[{type:'number',required:true,message:' ',trigger: 'blur'}],
+        }
       }
     },
     methods:{
       skipToPage(name){
         this.$router.push(name)
+      },
+      init(){
+        let self = this;
+        self.$http.get('/member/memberInfo?id=' + localStorage.getItem('fitId')).then(function (res) {
+          if (res.result == 1) {
+            self.personForm = res.data
+          } else {
+            MessageBox.warnAlert(self, res.error.message)
+          }
+        })
+      },
+      modify(){
+        let self = this;
+        console.log(this.personForm)
+        self.$refs['info'].validate(function (valid) {
+          if(valid){
+              self.personForm.id = localStorage.getItem('fitId')
+              self.$http.post('/member/update',JSON.stringify(self.personForm)).then(function (res) {
+                if(res.result==1){
+                    self.$toast('修改成功')
+                }else {
+                    MessageBox.warnAlert(self,res.error,message)
+                }
+              })
+          }else {
+            MessageBox.warnAlert(self,'请将表单填写完整');
+          }
+        })
       }
+    },
+    created:function () {
+      this.init()
     },
     components:{
       'Vheader':Vheader,

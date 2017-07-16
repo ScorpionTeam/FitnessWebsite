@@ -1,6 +1,6 @@
 <template>
     <div class="footer">
-        <div class="row">
+        <div class="row" v-if="oathFlag">
           您还未登录,
           <a  class="fc1" @click="toLogin"> 立即登录</a>
         </div>
@@ -15,7 +15,7 @@
   export default{
       data(){
           return{
-
+            oathFlag:false
           }
       },
       methods:{
@@ -24,6 +24,7 @@
         }
       },
       created:function () {
+        this.oathFlag= localStorage.getItem('fitOath')?false:true
       }
   }
 </script>

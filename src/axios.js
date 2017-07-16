@@ -8,12 +8,13 @@ import axios from 'axios'
 import * as types from './store/types'*/
 import router from './router'
 import iView from 'iview'
-import Auth from './Auth'
+import Auth from './common/Auth'
 
 
 // axios 配置
 /*正式库*/
 axios.defaults.baseURL = 'http://101.200.48.138:8088/Fitness'
+axios.defaults.baseURL = 'http://101.200.48.138/api'
 axios.defaults.headers['Content-Type'] = 'application/json;UTF-8'
 
 /**
@@ -41,7 +42,7 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
   response => {
     if (response.data.error) {
-      iView.LoadingBar.error()
+      /*iView.LoadingBar.error()*/
       let code = response.data.error.code
       if (code == 'need_token' || code == 'login_timeout' || code == 'token_error') {
         Auth.remove()
@@ -52,7 +53,7 @@ axios.interceptors.response.use(
         })
       }
     }
-    iView.LoadingBar.finish()
+    /*iView.LoadingBar.finish()*/
     return response.data
   },
   error => {

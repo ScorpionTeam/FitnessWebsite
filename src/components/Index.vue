@@ -1,21 +1,21 @@
 <template>
   <div class="wrapper">
     <div class="header">
-        <div class="index-bar">
-            <div class="fl">
-              当前场馆 :
-              <a class="fc1" href="#">
-              亚运村店
-                <Icon type="ios-arrow-right"></Icon>
-              </a>
-            </div>
-            <div class="fr">
-                <a href="" class="btn">
-                  <Icon type="ios-email-outline" class="i-msg"></Icon>
-                  <span class="num-info">3</span>
-                </a>
-            </div>
+      <div class="index-bar">
+        <div class="fl">
+          当前场馆 :
+          <a class="fc1" href="#">
+            亚运村店
+            <Icon type="ios-arrow-right"></Icon>
+          </a>
         </div>
+        <div class="fr">
+          <a href="" class="btn">
+            <Icon type="ios-email-outline" class="i-msg"></Icon>
+            <span class="num-info">3</span>
+          </a>
+        </div>
+      </div>
     </div>
     <div class="vip-card">
       <div class="clearfix">
@@ -23,17 +23,17 @@
           <img src="../assets/1.jpg" alt="">
         </div>
         <div class="fl info">
-          <div class="name">你好</div>
+          <div class="name">{{member.name}}</div>
           <p>会员卡</p>
         </div>
         <div class="fr valid">
-          {{startTime}} 至 {{endTime}} 有效
+          {{memberCard.startDate}} 至 {{memberCard.endDate}} 有效
         </div>
       </div>
       <div class="level">
-        <span>VIP</span>{{cardType}}
+        <span>VIP</span>{{memberCard.typeName}}
       </div>
-      <div class="number">{{cardNumber}}</div>
+      <div class="number">{{memberCard.cardNo}}</div>
     </div>
     <div class="notice">
       <div class="item">
@@ -110,7 +110,7 @@
     </div>
     <VFooter></VFooter>
     <Modal title="约课选择" v-model="selectSubject"
-           >
+    >
       <ul class="select-shop">
         <li class="item">
           <a class="link" @click="skipToPage('private-lesson')">
@@ -143,33 +143,61 @@
 </template>
 <script>
   import Footer from '../components/Footer.vue'
+  import MessageBox from '../common/component'
   export default{
-      data(){
-          return {
-            /*有效期*/
-            startTime:'2017-05-30',
-            endTime:'2017-06-21',
-            /*vip卡类型*/
-            cardType:'银卡',
-            cardNumber:'1234 5678 9012 3456 7890 123',
-            /*选课模态*/
-            selectSubject:false
-          }
-      },
-      methods:{
-        skipToPage(name){
-            this.$router.push(name)
+    data(){
+      return {
+        /*用户*/
+        member:{
+          name:'呵呵'
         },
-        openModal(){
-            this.selectSubject = !this.selectSubject;
-        }
-      },
-      components:{
-          'VFooter':Footer
-      },
-      created:function () {
-        console.log(this.$http.defaults.baseURL)
+        /*会员卡*/
+        memberCard:{
+          cardNo:'1234 5678 9012 3456 7890 123',
+          startDate:'2017-05-30',
+          typeName:'银卡',
+          endDate:'2017-06-21'
+
+        },
+        /*选课模态*/
+        selectSubject:false
       }
+    },
+    methods:{
+      skipToPage(name){
+        this.$router.push(name)
+      },
+      openModal(){
+        this.selectSubject = !this.selectSubject;
+      },
+      init(){
+        let self = this;
+        /*初始化VIP卡*/
+        self.$http.get('/memberCard/memberCardInfo?id='+localStorage.getItem('cardId')).then(function (res) {
+          if(res.result==1){
+            self.memberCard = res.data
+          }else {
+            MessageBox.warnAlert(self,res.error.message)
+          }
+        })
+        /*初始化个人信息*/
+        self.$http.get('/member/memberInfo?id='+localStorage.getItem('fitId')).then(function (res) {
+            console.log(res)
+          if(res.result==1){
+            self.member = res.data
+          }else {
+            MessageBox.warnAlert(self,res.error.message)
+          }
+        })
+      }
+    },
+    components:{
+      'VFooter':Footer
+    },
+    created:function () {
+      this.init()
+      console.log(this.$http.defaults.baseURL)
+    }
   }
 </script>
 <style  rel='stylesheet/scss' lang='scss'>
@@ -188,8 +216,8 @@
         line-height: 4.8rem;
         overflow: hidden;
         .fc1{
-            text-decoration: none;
-            color:#00bfbf;
+          text-decoration: none;
+          color:#00bfbf;
         }
         .fr{
           .btn{
@@ -269,27 +297,27 @@
     }
     .notice{
 
-        padding-bottom: 1rem;
-        .item{
-          margin: 1rem  1rem;
-          padding: 1rem;
-          border-bottom: 1px dashed #ddd;
+      padding-bottom: 1rem;
+      .item{
+        margin: 1rem  1rem;
+        padding: 1rem;
+        border-bottom: 1px dashed #ddd;
+      }
+      .fr{
+        color: #888;
+      }
+      .mid{
+        padding-right: 1rem;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        sub{
+          color:#ff0000;
+          padding-right: 0.3rem;
+          position: relative;
+          top:-0.5em;
         }
-        .fr{
-          color: #888;
-        }
-        .mid{
-          padding-right: 1rem;
-          overflow: hidden;
-          white-space: nowrap;
-          text-overflow: ellipsis;
-          sub{
-            color:#ff0000;
-            padding-right: 0.3rem;
-            position: relative;
-            top:-0.5em;
-          }
-        }
+      }
     }
     .columns{
       padding: 0  0.8rem 0.8rem 0;

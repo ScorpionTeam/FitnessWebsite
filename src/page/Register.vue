@@ -14,7 +14,7 @@
           </Input>
         </Form-item>
         <Form-item prop="passwordTwo">
-          <Input v-model="registerItem.passwordTwo" type='password' placeholder="请确认密码">
+          <Input v-model="registerItem.passwordTwo" type='password' placeholder="请确认密码" @on-blur="justifyAaginPassword">
           <Icon type="ios-locked-outline" slot="prepend"></Icon>
           </Input>
         </Form-item>
@@ -26,10 +26,14 @@
 <script>
   import Header from '../components/Header.vue'
   import {Toast}from'mint-ui'
+  import Message from  '../common/component'
   export default{
     data(){
       return{
         registerItem:{
+          phone:'',
+          password:'',
+          passwordTwo:''
         },
         rule:{
           phone:[{required:true,message:"手机号必填"}, {len: 11, message: '请填写11位手机号', trigger: 'blur'}],
@@ -39,19 +43,33 @@
       }
     },
     methods:{
+        /*校验两次输入的密码*/
+      justifyAaginPassword(){
+          if(this.registerItem.passwordTwo == this.registerItem.password){
+              return true;
+          }else {
+            Message.warnAlert(this,'重复密码与您设置的密码不一致')
+            return false
+          }
+      },
       register(){
             let self =this;
             self.$refs['registerItem'].validate(function (val) {
                 if(val){
-                  self.$http.post('/member/register',JSON.stringify(self.registerItem)).then(function (res) {
+                  self.justifyAaginPassword()? self.$http.post('/member/register',JSON.stringify(self.registerItem)).then(function (res) {
                       console.log(res)
                     if(res.result==1){
                           Toast('注册成功');
-                          self.refs['registerItem'].resetField();
+                          self.$refs['registerItem'].resetFields();
                     }else {
-                        console.log(res)
+                        console.log(res.error)
+                        Message.warnAlert(self,res.error.message)
+
                     }
-                  })
+                  }):Message.warnAlert(self,'重复密码与您设置的密码不一致')
+                }
+                else {
+                  Message.warnAlert(self,'请将注册信息填写完整')
                 }
             })
         }

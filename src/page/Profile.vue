@@ -9,12 +9,12 @@
           </div>
         </div>
         <div class="rt">
-          <div class="row">姓名 : WBB</div>
-          <div class="row">性别 : 男</div>
-          <div class="row">年龄 : 18岁</div>
-          <div class="row">电话 : WBB</div>
-          <div class="row">邮箱 : WBB</div>
-          <div class="row">注册日期 : WBB</div>
+          <div class="row">姓名 : {{member.name}}</div>
+          <div class="row">性别 : {{member.sex}}</div>
+          <div class="row">年龄 : {{member.age}}岁</div>
+          <div class="row">电话 : {{member.phone}}</div>
+          <div class="row">邮箱 : {{member.email}}</div>
+          <div class="row">注册日期 : {{member.createDate}}</div>
           <div class="row">课程情况 : WBBAA</div>
           <a class="edit" @click="skipToPage('profile-edit')">
             <i class="i-edit"></i>
@@ -42,21 +42,37 @@
 <script>
   import Vheader from '../components/Header.vue'
   import Vfooter from '../components/Footer.vue'
+  import MessageBox from '../common/component'
   export default{
     data(){
       return{
-
+        member:{
+        }
       }
     },
     methods:{
       skipToPage(name){
-          this.$router.push(name)
+        this.$router.push(name)
+      },
+      init(){
+        let self = this;
+        self.$http.get('/member/memberInfo?id=' + localStorage.getItem('fitId')).then(function (res) {
+          if (res.result == 1) {
+            self.member = res.data
+            self.member.sex = self.member.sex == '1' ? '男' : '女'
+          } else {
+            MessageBox.warnAlert(self, res.error.message)
+          }
+        })
       }
     },
-    components:{
-      'Vheader':Vheader,
+    created:function () {
+      this.init()
+  },
+  components:{
+    'Vheader':Vheader,
       'Vfooter':Vfooter
-    }
+  }
   }
 </script>
 <style scoped rel='stylesheet/scss' lang='scss'>
