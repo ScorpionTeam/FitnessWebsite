@@ -2,11 +2,13 @@
   <div>
     <Vheader></Vheader>
     <div class="profile-edit">
-      <div class="edit-avatar">
-        <div class="avatar">
-          <img src="../assets/1.jpg" alt="">
+      <Upload action="/img/upload" ref="header" :max-size="5120" :on-success="selectSuccess" >
+        <div class="edit-avatar">
+          <div class="avatar" @click="selectPic">
+            <img src="../assets/1.jpg" alt="" ref="header">
+          </div>
         </div>
-      </div>
+      </Upload>
       <div class="info-form">
         <Form ref="info" :model="personForm" :label-width="60" :rules="rules">
           <Form-item label="姓名" prop="name">
@@ -44,6 +46,7 @@
   import Vheader from '../components/Header.vue'
   import Vfooter from '../components/Footer.vue'
   import MessageBox from '../common/component'
+  import {headerUrl} from '../common/WebApi'
   export default{
     data(){
       return{
@@ -76,18 +79,24 @@
         console.log(this.personForm)
         self.$refs['info'].validate(function (valid) {
           if(valid){
-              self.personForm.id = localStorage.getItem('fitId')
-              self.$http.post('/member/update',JSON.stringify(self.personForm)).then(function (res) {
-                if(res.result==1){
-                    self.$toast('修改成功')
-                }else {
-                    MessageBox.warnAlert(self,res.error,message)
-                }
-              })
+            self.personForm.id = localStorage.getItem('fitId')
+            self.$http.post('/member/update',JSON.stringify(self.personForm)).then(function (res) {
+              if(res.result==1){
+                self.$toast('修改成功')
+              }else {
+                MessageBox.warnAlert(self,res.error,message)
+              }
+            })
           }else {
             MessageBox.warnAlert(self,'请将表单填写完整');
           }
         })
+      },
+      selectSuccess(res,file,fileList){
+        console.log(res)
+        console.log(file)
+        let baseUrl = headerUrl
+        this.$refs['header'].src=baseUrl+res.name;
       }
     },
     created:function () {

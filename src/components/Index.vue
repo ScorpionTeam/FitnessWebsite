@@ -4,8 +4,8 @@
       <div class="index-bar">
         <div class="fl">
           当前场馆 :
-          <a class="fc1" href="#">
-            亚运村店
+          <a class="fc1" @click='openStadium'>
+            亚运村店{{stadiumName}}
             <Icon type="ios-arrow-right"></Icon>
           </a>
         </div>
@@ -139,6 +139,39 @@
       <div slot="close"></div>
       <div slot="footer"></div>
     </Modal>
+    <Modal title="场馆选择" v-model="stadiumFlag" :closable="false">
+      <ul class="select-shop">
+        <li class="item" v-for="gym in stadiumList" @click="selectStadium(gym.id,gym.name)">
+          <a class="link">
+            <div class="pic">
+              <img src="http://zoneke-img.b0.upaiyun.com/a74d6191fb0e2ab5eee9e51c21417750.jpg" alt="">
+            </div>
+            <div class="txt">
+              <h4>{{gym.name}}</h4>
+              <p>北京市朝阳区亚运村安立路安立花园2A1202</p>
+            </div>
+            <div class="ico">
+              <i class="icon i-arrow-right"></i>
+            </div>
+          </a>
+        </li>
+        <li class="item" @click="selectStadium(1,'亚新村')">
+          <a class="link">
+            <div class="pic">
+              <img src="http://zoneke-img.b0.upaiyun.com/a74d6191fb0e2ab5eee9e51c21417750.jpg" alt="">
+            </div>
+            <div class="txt">
+              <h4>亚运村0店</h4>
+              <p>北京市朝阳区亚运村安立路安立花园2A1202</p>
+            </div>
+            <div class="ico">
+              <i class="icon i-arrow-right"></i>
+            </div>
+          </a>
+        </li>
+      </ul>
+      <div slot="footer"></div>
+    </Modal>
   </div>
 </template>
 <script>
@@ -159,8 +192,12 @@
           endDate:'2017-06-21'
 
         },
+        /*场馆列表*/
+        stadiumList:[],
+        stadiumName:'',
         /*选课模态*/
-        selectSubject:false
+        selectSubject:false,
+        stadiumFlag:false
       }
     },
     methods:{
@@ -182,13 +219,27 @@
         })
         /*初始化个人信息*/
         self.$http.get('/member/memberInfo?id='+localStorage.getItem('fitId')).then(function (res) {
-            console.log(res)
+          console.log(res)
           if(res.result==1){
             self.member = res.data
           }else {
             MessageBox.warnAlert(self,res.error.message)
           }
         })
+      },
+      openStadium(){
+        this.stadiumFlag=!this.stadiumFlag;
+        let self =this;
+        self.$http.get('stadium/allStadium').then(function (res) {
+          if(res.result==1){
+              self.stadiumList = res.data;
+          }
+        })
+      },
+      selectStadium(id,name){
+        this.stadiumFlag=!this.stadiumFlag;
+        localStorage.setItem('stadiumId',id)
+        this.stadiumName = name;
       }
     },
     components:{
@@ -340,6 +391,53 @@
           .tit{
             font-size: 1.7rem;
             color:#fff;
+          }
+        }
+      }
+    }
+  }
+  .select-shop{
+    max-height: 60vh;
+    margin: 0;
+    overflow-y: auto;
+    .item{
+      margin: 0 2.2rem;
+      .link{
+        display: table;
+        width: 100%;
+        padding: 2.2rem 0;
+        line-height: 0;
+        border-bottom: 1px solid #d1d1d1;
+        .pic{
+          display: table-cell;
+          vertical-align: middle;
+          img{
+            width:4.4rem;
+            height: 4.4rem;
+          }
+        }
+        .txt{
+          display: table-cell;
+          width: 100%;
+          padding: 0 1rem;
+          line-height: 1.2;
+          vertical-align: middle;
+          h4{
+            font-size: 1.5rem;
+            font-weight: normal;
+          }
+          p{
+            color: #999;
+            font-size: 1.3rem;
+          }
+        }
+        .ico{
+          display: table-cell;
+          vertical-align: middle;
+          .i-arrow-right{
+            width: .9rem;
+            height: 1.6rem;
+            background-image: url(../assets/i-arrow-right.png);
           }
         }
       }
