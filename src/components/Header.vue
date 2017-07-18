@@ -1,37 +1,38 @@
 <template>
-    <div class="header">
-      <div class="lf" @click="back">
-        <a class="i-left">
-            <i></i>
-        </a>
-      </div>
-      <div class="rg" v-if="myAnswer">
-        <a class="btn">我的问答</a>
-      </div>
-      <div class="mid">
-         {{title}}
-      </div>
+  <div class="header">
+    <div class="lf" @click="back">
+      <a class="i-left">
+        <i></i>
+      </a>
     </div>
+    <div class="rg" v-if="myAnswer">
+      <a class="btn">我的问答</a>
+    </div>
+    <div class="mid">
+      {{title}}
+    </div>
+  </div>
 </template>
 <script>
   export default{
-      data(){
-          return{
-              title:'',
-              myAnswer:false
-          }
-      },
-      methods:{
-          back(){
-            /*this.$router.push('/index')*/
-            this.$router.go(-1);
-          }
-      },
-      created:function () {
-        this.title=this.$route.name;
+    data(){
+      return{
+        title:'',
+        myAnswer:false
+      }
+    },
+    prop:['stadiumName'],
+    methods:{
+      back(){
+        /*this.$router.push('/index')*/
+        this.$router.go(-1);
+      }
+    },
+    created:function () {
+      this.title= this.$route.name=='场馆介绍'?this.stadiumName:this.$route.name;
         /*判断是否展示我的问答按钮*/
         this.$route.name=='问答'?this.myAnswer=true:this.myAnswer=false;
-      }
+    }
   }
 </script>
 <style scoped rel='stylesheet/scss' lang='scss'>

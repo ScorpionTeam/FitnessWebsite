@@ -2,9 +2,10 @@
   <div>
     <Vheader></Vheader>
     <div class="profile-edit">
-      <Upload action="/img/upload" ref="header" :max-size="5120" :on-success="selectSuccess" >
+      <Upload :action="upBaseUrl+'/img/upload'" ref="header" :max-size="5120" :on-success="selectSuccess"
+               :show-upload-list="false">
         <div class="edit-avatar">
-          <div class="avatar" @click="selectPic">
+          <div class="avatar">
             <img src="../assets/1.jpg" alt="" ref="header">
           </div>
         </div>
@@ -50,6 +51,7 @@
   export default{
     data(){
       return{
+        upBaseUrl:'',
         personForm:{},
         rules:{
           name:[{required:true,message:' ',trigger: 'blur'}],
@@ -66,6 +68,7 @@
       },
       init(){
         let self = this;
+        self.upBaseUrl = this.$http.defaults.baseURL;
         self.$http.get('/member/memberInfo?id=' + localStorage.getItem('fitId')).then(function (res) {
           if (res.result == 1) {
             self.personForm = res.data

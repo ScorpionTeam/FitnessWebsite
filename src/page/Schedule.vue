@@ -197,7 +197,7 @@
 <script>
   import Header from '../components/Header.vue'
   import Footer from '../components/Footer.vue'
-  import getTime from '../getTime'
+  import getTime from '../common/getTime'
   export default{
       data(){
           return {

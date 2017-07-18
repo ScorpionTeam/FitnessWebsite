@@ -5,7 +5,7 @@
         <div class="fl">
           当前场馆 :
           <a class="fc1" @click='openStadium'>
-            亚运村店{{stadiumName}}
+            {{stadiumName}}
             <Icon type="ios-arrow-right"></Icon>
           </a>
         </div>
@@ -222,6 +222,13 @@
           console.log(res)
           if(res.result==1){
             self.member = res.data
+            /*获取会员对应的场馆*/
+            self.$http.get('stadium/stadiumInfo?id='+res.data.stadiumId).then(function(res){
+                if(res.result==1) {
+                  self.stadiumName = res.data.name
+                  localStorage.setItem('stadiumId',res.data.id)
+                }
+            })
           }else {
             MessageBox.warnAlert(self,res.error.message)
           }
