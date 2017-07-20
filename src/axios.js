@@ -26,10 +26,10 @@ axios.interceptors.request.use(
     /**
      * 判断当前是否有Token 如果存在就添加到请求头部
      */
-    /*let token = Auth.getToken()
+    let token = localStorage.getItem('fitOath')
     if (token) {
       config.headers.oauth = token
-    }*/
+    }
     return config
   },
   error => {
@@ -58,6 +58,7 @@ axios.interceptors.response.use(
   },
   error => {
     if (error.response) {
+      console.log(error);
       switch (error.response.status) {
         case 500:
           iView.Message.error('服务器异常', 3, null)

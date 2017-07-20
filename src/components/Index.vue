@@ -182,14 +182,14 @@
       return {
         /*用户*/
         member:{
-          name:'呵呵'
+          name:''
         },
         /*会员卡*/
         memberCard:{
-          cardNo:'1234 5678 9012 3456 7890 123',
-          startDate:'2017-05-30',
-          typeName:'银卡',
-          endDate:'2017-06-21'
+          cardNo:'',
+          startDate:'',
+          typeName:'',
+          endDate:''
 
         },
         /*场馆列表*/
@@ -213,6 +213,11 @@
         self.$http.get('/memberCard/memberCardInfo?id='+localStorage.getItem('cardId')).then(function (res) {
           if(res.result==1){
             self.memberCard = res.data
+            let no=''
+            for(let i =0;i<self.memberCard.cardNo.length;i++){
+                no+= i%4==0?' '+self.memberCard.cardNo.substring(i,i+1):self.memberCard.cardNo.substring(i,i+1)
+            }
+            self.memberCard.cardNo = no;
           }else {
             MessageBox.warnAlert(self,res.error.message)
           }
