@@ -155,20 +155,6 @@
             </div>
           </a>
         </li>
-        <li class="item" @click="selectStadium(1,'亚新村')">
-          <a class="link">
-            <div class="pic">
-              <img src="http://zoneke-img.b0.upaiyun.com/a74d6191fb0e2ab5eee9e51c21417750.jpg" alt="">
-            </div>
-            <div class="txt">
-              <h4>亚运村0店</h4>
-              <p>北京市朝阳区亚运村安立路安立花园2A1202</p>
-            </div>
-            <div class="ico">
-              <i class="icon i-arrow-right"></i>
-            </div>
-          </a>
-        </li>
       </ul>
       <div slot="footer"></div>
     </Modal>
@@ -244,6 +230,7 @@
         let self =this;
         self.$http.get('stadium/allStadium').then(function (res) {
           if(res.result==1){
+              console.log(res.data)
               self.stadiumList = res.data;
           }
         })

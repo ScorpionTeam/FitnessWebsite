@@ -1,7 +1,7 @@
 <template>
   <div>
     <Vheader :stadiumName="name"></Vheader>
-    <div style="background: #fff">
+    <div style="background: #fff" class="content">
       {{detail.content}}
     </div>
     <Vfooter></Vfooter>
@@ -13,18 +13,18 @@
   export default{
     data(){
       return{
-        name:'',
-        detail:{}
+        detail:{},
+        name:''
       }
     },
     methods:{
       init(){
         let self = this;
         self.$http.get('stadium/stadiumInfo?id='+localStorage.getItem('stadiumId')).then(function (res) {
-          console.log(res);
           if(res.result==1){
-              self.name = res.data.name;
               self.detail = res.data
+              self.name = res.data.name
+              document.querySelector('.content').innerHTML = res.data.content
           }
         })
       }

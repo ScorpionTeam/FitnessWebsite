@@ -1,222 +1,252 @@
 <template>
-    <div>
-        <Vheader></Vheader>
-        <div class="calendar">
-          <div class="hd">
-            <Row :gutter="17">
-              <Col span="7" >
-              <Select v-model="year">
-                <Option v-for="year in yearList" :value="year.value" :key='year.value' :label="year.label"></Option>
-              </Select>
-              </Col>
-              <Col span="7">
-              <Select v-model="month">
-                <Option v-for="month in monthList" :value="month.value" :key='month.value' :label="month.label"></Option>
-              </Select>
-              </Col>
-              <Col span="3">
-                <Button type="success" style="background: #00bfbf;font-size: 1.4rem">查询</Button>
-              </Col>
-            </Row>
-          </div>
-          <div class="content">
-            <div class="container">
-                <table>
-                  <tr>
-                    <th>周日</th>
-                    <th>周一</th>
-                    <th>周二</th>
-                    <th>周三</th>
-                    <th>周四</th>
-                    <th>周五</th>
-                    <th>周六</th>
-                  </tr>
-                  <tr>
-                    <td class="private">
-                      <span>25</span>
-                    </td>
-                    <td>
-                      <span>26</span>
-                    </td>
-                    <td>
-                      <span>1</span>
-                    </td>
-                    <td>
-                      <span>1</span>
-                    </td>
-                    <td>
-                      <span>1</span>
-                    </td>
-                    <td>
-                      <span>1</span>
-                    </td>
-                    <td>
-                      <span>1</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <span>25</span>
-                    </td>
-                    <td>
-                      <span>26</span>
-                    </td>
-                    <td>
-                      <span>1</span>
-                    </td>
-                    <td>
-                      <span>1</span>
-                    </td>
-                    <td>
-                      <span>1</span>
-                    </td>
-                    <td>
-                      <span>1</span>
-                    </td>
-                    <td>
-                      <span>1</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <span>25</span>
-                    </td>
-                    <td>
-                      <span>26</span>
-                    </td>
-                    <td>
-                      <span>1</span>
-                    </td>
-                    <td>
-                      <span>1</span>
-                    </td>
-                    <td>
-                      <span>1</span>
-                    </td>
-                    <td>
-                      <span>1</span>
-                    </td>
-                    <td>
-                      <span>1</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <span>25</span>
-                    </td>
-                    <td>
-                      <span>26</span>
-                    </td>
-                    <td>
-                      <span>1</span>
-                    </td>
-                    <td>
-                      <span>1</span>
-                    </td>
-                    <td>
-                      <span>1</span>
-                    </td>
-                    <td>
-                      <span>1</span>
-                    </td>
-                    <td>
-                      <span>1</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <span>25</span>
-                    </td>
-                    <td>
-                      <span>26</span>
-                    </td>
-                    <td>
-                      <span>1</span>
-                    </td>
-                    <td>
-                      <span>1</span>
-                    </td>
-                    <td>
-                      <span>1</span>
-                    </td>
-                    <td>
-                      <span>1</span>
-                    </td>
-                    <td>
-                      <span>1</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <span>25</span>
-                    </td>
-                    <td>
-                      <span>26</span>
-                    </td>
-                    <td>
-                      <span>1</span>
-                    </td>
-                    <td>
-                      <span>1</span>
-                    </td>
-                    <td>
-                      <span>1</span>
-                    </td>
-                    <td>
-                      <span>1</span>
-                    </td>
-                    <td>
-                      <span>1</span>
-                    </td>
-                  </tr>
-                </table>
-            </div>
-          </div>
-          <div class="ft">
-            <div class="item">
-              <i class="lump" style="  background-color: #008000;"></i>
-              私教
-            </div>
-            <div class="item">
-              <i class="lump" style="background: #fc0"></i>
-              团课
-            </div>
-            <div class="item">
-              <i class="lump" style="background: #3cc"></i>
-              迟到
-            </div>
-            <div class="item">
-              <i class="lump" style="background: #f00"></i>
-              缺席
-            </div>
-          </div>
+  <div>
+    <Vheader></Vheader>
+    <div class="calendar">
+      <div class="hd">
+        <Row :gutter="17">
+          <Col span="7" >
+          <Select v-model="year">
+            <Option v-for="year in yearList" :value="year.value" :key='year.value' :label="year.label"></Option>
+          </Select>
+          </Col>
+          <Col span="7">
+          <Select v-model="month">
+            <Option v-for="month in monthList" :value="month.value" :key='month.value' :label="month.label"></Option>
+          </Select>
+          </Col>
+          <Col span="3">
+          <Button type="success" style="background: #00bfbf;font-size: 1.4rem" @click="query">查询</Button>
+          </Col>
+        </Row>
+      </div>
+      <div class="content">
+        <div class="container">
+          <table>
+            <tr>
+              <th>周日</th>
+              <th>周一</th>
+              <th>周二</th>
+              <th>周三</th>
+              <th>周四</th>
+              <th>周五</th>
+              <th>周六</th>
+            </tr>
+            <tr>
+              <td class="private">
+                <span>25</span>
+              </td>
+              <td>
+                <span>26</span>
+              </td>
+              <td>
+                <span>1</span>
+              </td>
+              <td>
+                <span>1</span>
+              </td>
+              <td>
+                <span>1</span>
+              </td>
+              <td>
+                <span>1</span>
+              </td>
+              <td>
+                <span>1</span>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <span>25</span>
+              </td>
+              <td>
+                <span>26</span>
+              </td>
+              <td>
+                <span>1</span>
+              </td>
+              <td>
+                <span>1</span>
+              </td>
+              <td>
+                <span>1</span>
+              </td>
+              <td>
+                <span>1</span>
+              </td>
+              <td>
+                <span>1</span>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <span>25</span>
+              </td>
+              <td>
+                <span>26</span>
+              </td>
+              <td>
+                <span>1</span>
+              </td>
+              <td>
+                <span>1</span>
+              </td>
+              <td>
+                <span>1</span>
+              </td>
+              <td>
+                <span>1</span>
+              </td>
+              <td>
+                <span>1</span>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <span>25</span>
+              </td>
+              <td>
+                <span>26</span>
+              </td>
+              <td>
+                <span>1</span>
+              </td>
+              <td>
+                <span>1</span>
+              </td>
+              <td>
+                <span>1</span>
+              </td>
+              <td>
+                <span>1</span>
+              </td>
+              <td>
+                <span>1</span>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <span>25</span>
+              </td>
+              <td>
+                <span>26</span>
+              </td>
+              <td>
+                <span>1</span>
+              </td>
+              <td>
+                <span>1</span>
+              </td>
+              <td>
+                <span>1</span>
+              </td>
+              <td>
+                <span>1</span>
+              </td>
+              <td>
+                <span>1</span>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <span>25</span>
+              </td>
+              <td>
+                <span>26</span>
+              </td>
+              <td>
+                <span>1</span>
+              </td>
+              <td>
+                <span>1</span>
+              </td>
+              <td>
+                <span>1</span>
+              </td>
+              <td>
+                <span>1</span>
+              </td>
+              <td>
+                <span>1</span>
+              </td>
+            </tr>
+          </table>
         </div>
-        <Vfooter></Vfooter>
+      </div>
+      <div class="ft">
+        <div class="item">
+          <i class="lump" style="  background-color: #008000;"></i>
+          私教
+        </div>
+        <div class="item">
+          <i class="lump" style="background: #fc0"></i>
+          团课
+        </div>
+        <div class="item">
+          <i class="lump" style="background: #3cc"></i>
+          迟到
+        </div>
+        <div class="item">
+          <i class="lump" style="background: #f00"></i>
+          缺席
+        </div>
+      </div>
     </div>
+    <Vfooter></Vfooter>
+  </div>
 </template>
 <script>
   import Header from '../components/Header.vue'
   import Footer from '../components/Footer.vue'
   import getTime from '../common/getTime'
   export default{
-      data(){
-          return {
-            year:'',
-            month:'',
-            yearList:[],
-            monthList:[]
-          }
-      },
-      created:function () {
-        this.yearList = getTime.getYear()
-        this.monthList = getTime.getMonth()
-        this.year = this.yearList[0].value
-        this.month = this.monthList[0].value
-      },
-      components:{
-        'Vheader':Header,
-        'Vfooter':Footer
+    data(){
+      return {
+        year:'',
+        month:'',
+        yearList:[],
+        monthList:[],
+        monthTable:[]
       }
+    },
+    methods:{
+      query(){
+        /*查询当前月内时间*/
+        let current = this.year+'-'+this.month+'-1'
+        console.log(current)
+        let date = new Date(current)
+        /*获取上个月的最后一天*/
+        let lastMonthDay = new Date(current)
+        lastMonthDay.setDate(0)
+        let lastMonthLastDay = lastMonthDay.getDate()
+        let other = date.getDay()
+        for(let i = 0;i<6;i++){
+            let c = []
+            for(let j = 0 ;j<7;j++){
+                if(i==0){
+                    if(j<other){
+                        c.push(lastMonthLastDay-j)
+                    }else {
+                        c.push(j-other+1)
+                    }
+                }else {
+                  c.push(this.monthTable[i-1][6]+j)
+                }
+            }
+            this.monthTable.push(c)
+        }
+        console.log(this.monthTable)
+      }
+    },
+    created:function () {
+      this.yearList = getTime.getYear()
+      this.monthList = getTime.getMonth()
+      this.year = this.yearList[0].value
+      this.month = this.monthList[0].value
+    },
+    components:{
+      'Vheader':Header,
+      'Vfooter':Footer
+    }
   }
 </script>
 <style scoped rel='stylesheet/scss' lang='scss'>

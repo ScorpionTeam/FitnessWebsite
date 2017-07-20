@@ -21,15 +21,27 @@
         myAnswer:false
       }
     },
-    prop:['stadiumName'],
+    props:['stadiumName'],
     methods:{
       back(){
         /*this.$router.push('/index')*/
         this.$router.go(-1);
+      },
+      init(){
+          let  self = this;
+          if(this.$route.name=='场馆介绍'){
+            self.$http.get('stadium/stadiumInfo?id='+localStorage.getItem('stadiumId')).then(function (res) {
+                self.title =res.data.name
+            })
+          }else {
+            this.title= this.$route.name
+          }
       }
     },
     created:function () {
-      this.title= this.$route.name=='场馆介绍'?this.stadiumName:this.$route.name;
+       /* console.log(this.stadiumName);
+        this.title = this.$route.name=='场馆介绍'?this.stadiumName:this.$route.name*/
+       this.init()
         /*判断是否展示我的问答按钮*/
         this.$route.name=='问答'?this.myAnswer=true:this.myAnswer=false;
     }
