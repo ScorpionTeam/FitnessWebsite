@@ -6,28 +6,28 @@
         <mt-tab-item v-for="time in timeList" :key="time.value" :id="time.value">
           <p class="date">{{time.label}}</p>
         </mt-tab-item>
-       <!-- <mt-tab-item id="1">
-            <p class="date">07.19</p>
-            <p class="week">周三</p>
-        </mt-tab-item>
-        <mt-tab-item id="2">
-          <p class="date">07.19</p>
-          <p class="week">周三</p>
-        </mt-tab-item>
-        <mt-tab-item id="3">
-          <p class="date">07.19</p>
-          &lt;!&ndash;<p class="week">周三</p>&ndash;&gt;
-        </mt-tab-item>-->
+        <!-- <mt-tab-item id="1">
+             <p class="date">07.19</p>
+             <p class="week">周三</p>
+         </mt-tab-item>
+         <mt-tab-item id="2">
+           <p class="date">07.19</p>
+           <p class="week">周三</p>
+         </mt-tab-item>
+         <mt-tab-item id="3">
+           <p class="date">07.19</p>
+           &lt;!&ndash;<p class="week">周三</p>&ndash;&gt;
+         </mt-tab-item>-->
         <mt-tab-item id="4" @click.native="openPicker">
           <i id="btnCalendar" class="i-calendar"></i>
         </mt-tab-item>
       </mt-navbar>
     </div>
     <div class="index-bar">
-      <div class="fl">
+      <div class="fl" @click="openStadium">
         当前场馆 :
-        <a class="fc1" href="#">
-          亚运村店
+        <a class="fc1">
+          {{currentStadium}}
           <Icon type="ios-arrow-right"></Icon>
         </a>
       </div>
@@ -37,51 +37,51 @@
         <div class="title">请选择课程</div>
         <div class="content">
           <div class="item">
-          <div class="media">
-            <div class="fl">
-              <img src="http://zoneke-img.b0.upaiyun.com/78405808ce6060961a05cdd660d6d08d.jpg!120x120" alt="课程图片">
-            </div>
-            <div class="rt">
-              <div class="row">
-                <a class="fr link" @click="skipToPage('course-detail')">课程详情</a>
-                <div class="h3">一对一私教课</div>
+            <div class="media">
+              <div class="fl">
+                <img src="http://zoneke-img.b0.upaiyun.com/78405808ce6060961a05cdd660d6d08d.jpg!120x120" alt="课程图片">
               </div>
-              <div class="time">
-                <i class="i-time icon"></i>
-                60min
+              <div class="rt">
+                <div class="row">
+                  <a class="fr link" @click="skipToPage('course-detail')">课程详情</a>
+                  <div class="h3">一对一私教课</div>
+                </div>
+                <div class="time">
+                  <i class="i-time icon"></i>
+                  60min
+                </div>
+                <Appoint @click.native="show(0)"></Appoint>
               </div>
-              <Appoint @click.native="show(0)"></Appoint>
             </div>
-          </div>
             <div class="cont" style="display: none">
               <div class="time-list">
-              <Radio-group class='time-group' v-model="appointTime" type="button">
-                <div class="d">
-                  <Radio label="北京">08:00</Radio>
-                </div>
-                <div class="d">
-                  <Radio label="2">09:00</Radio>
-                </div >
-                <div class="d">
-                  <Radio label="1">10:00</Radio>
-                </div>
-                <div class="d">
-                  <Radio label="3">11:00</Radio>
-                </div>
-              </Radio-group>
-            </div>
+                <Radio-group class='time-group' v-model="appointTime" type="button">
+                  <div class="d">
+                    <Radio label="北京">08:00</Radio>
+                  </div>
+                  <div class="d">
+                    <Radio label="2">09:00</Radio>
+                  </div >
+                  <div class="d">
+                    <Radio label="1">10:00</Radio>
+                  </div>
+                  <div class="d">
+                    <Radio label="3">11:00</Radio>
+                  </div>
+                </Radio-group>
+              </div>
               <div class="btns">
                 <Row>
                   <Col span="11">
-                    <Button class="btn-appoint" @click="skipToPage('lession-submit')">预约</Button>
+                  <Button class="btn-appoint" @click="skipToPage('lession-submit')">预约</Button>
                   </Col>
                   <Col span="12" offset="1">
-                    <Button class="btn-appoint food" @click="skipToPage('lession-submit')">预约并约定营养餐</Button>
+                  <Button class="btn-appoint food" @click="skipToPage('lession-submit')">预约并约定营养餐</Button>
                   </Col>
                 </Row>
               </div>
             </div>
-        </div>
+          </div>
           <div class="item">
             <div class="media">
               <div class="fl">
@@ -130,8 +130,27 @@
       year-format="{value} 年"
       month-format="{value} 月"
       date-format="{value} 日"
-    @confirm="confirmDate">
+      @confirm="confirmDate">
     </mt-datetime-picker>
+    <Modal title="场馆选择" v-model="stadiumFlag" :closable="false">
+      <ul class="select-shop">
+        <li class="item" v-for="gym in stadiumList" @click="selectStadium(gym.id,gym.name)">
+          <a class="link">
+            <div class="pic">
+              <img src="http://zoneke-img.b0.upaiyun.com/a74d6191fb0e2ab5eee9e51c21417750.jpg" alt="">
+            </div>
+            <div class="txt">
+              <h4>{{gym.name}}</h4>
+              <p>北京市朝阳区亚运村安立路安立花园2A1202</p>
+            </div>
+            <div class="ico">
+              <i class="icon i-arrow-right"></i>
+            </div>
+          </a>
+        </li>
+      </ul>
+      <div slot="footer"></div>
+    </Modal>
     <Vfooter></Vfooter>
   </div>
 </template>
@@ -149,19 +168,23 @@
         timeList:[],
         pickerVisible:'',
         nowday:'',
+        currentStadium:'',
         button1:'a',
         /*约课时间点*/
-        appointTime:''
+        appointTime:'',
+        /*场馆模态*/
+        stadiumFlag:false,
+        stadiumList:[]
       }
     },
     methods:{
       skipToPage(name){
-          this.$router.push(name)
+        this.$router.push(name)
       },
       /*显示时间点*/
       show(index){
-          let cont = document.getElementsByClassName('cont');
-           cont[index].style.display=cont[index].style.display=='none'?'inline-block':'none';
+        let cont = document.getElementsByClassName('cont');
+        cont[index].style.display=cont[index].style.display=='none'?'inline-block':'none';
       },
       getTimeList(data){
         let date= data||new Date();
@@ -170,29 +193,51 @@
         let dateObj ={}
         /*获取今天到后天的时间*/
         for(let i =0 ;i<3;i++){
-            let time = date.getTime()
-            date = i==0?date:new Date(time+24*3600*1000);
-            let month = getDateFormatter.formatterMonth(date);
-            let day = getDateFormatter.formtterDay(date)
-            dateObj.label = month+'.'+day
-            dateObj.value = getDateFormatter.formatterDate(date)
-            this.timeList[i]=Object.assign({},dateObj)
+          let time = date.getTime()
+          date = i==0?date:new Date(time+24*3600*1000);
+          let month = getDateFormatter.formatterMonth(date);
+          let day = getDateFormatter.formtterDay(date)
+          dateObj.label = month+'.'+day
+          dateObj.value = getDateFormatter.formatterDate(date)
+          this.timeList[i]=Object.assign({},dateObj)
         }
       },
       openPicker(){
-          this.$refs.picker.open();
+        this.$refs.picker.open();
       },
       confirmDate(){
         this.$refs.picker.close();
         console.log(this.pickerVisible);
         this.getTimeList(this.pickerVisible)
       },
+      /*选择场馆*/
+      openStadium(){
+        this.stadiumFlag=!this.stadiumFlag;
+        let self =this;
+        self.$http.get('stadium/allStadium').then(function (res) {
+          if(res.result==1){
+            self.stadiumList = res.data;
+          }
+        })
+      },
+      selectStadium(id,name){
+        this.stadiumFlag=!this.stadiumFlag;
+        localStorage.setItem('stadiumId',id)
+        this.currentStadium = name;
+      },
       init(){
-
+        let self=this
+          /*获取当前场馆*/
+          self.$http.get('stadium/stadiumInfo?id='+localStorage.getItem('stadiumId')).then(function (res) {
+            if(res.result==1){
+                self.currentStadium = res.data.name
+            }
+          })
       }
     },
     created:function () {
       this.getTimeList();
+      this.init();
     },
     components:{
       'Vheader':Vhedaer,

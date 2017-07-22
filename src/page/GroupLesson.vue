@@ -24,10 +24,10 @@
       </mt-navbar>
     </div>
     <div class="index-bar">
-      <div class="fl">
+      <div class="fl" @click="openStadium">
         当前场馆 :
-        <a class="fc1" href="#">
-          亚运村店
+        <a class="fc1">
+          {{currentStadium}}
           <Icon type="ios-arrow-right"></Icon>
         </a>
       </div>
@@ -92,6 +92,25 @@
       :startDate="nowday"
       @confirm="confirmDate">
     </mt-datetime-picker>
+    <Modal title="场馆选择" v-model="stadiumFlag" :closable="false">
+      <ul class="select-shop">
+        <li class="item" v-for="gym in stadiumList" @click="selectStadium(gym.id,gym.name)">
+          <a class="link">
+            <div class="pic">
+              <img src="http://zoneke-img.b0.upaiyun.com/a74d6191fb0e2ab5eee9e51c21417750.jpg" alt="">
+            </div>
+            <div class="txt">
+              <h4>{{gym.name}}</h4>
+              <p>北京市朝阳区亚运村安立路安立花园2A1202</p>
+            </div>
+            <div class="ico">
+              <i class="icon i-arrow-right"></i>
+            </div>
+          </a>
+        </li>
+      </ul>
+      <div slot="footer"></div>
+    </Modal>
     <Vfooter></Vfooter>
   </div>
 </template>
@@ -111,7 +130,11 @@
         pickerVisible:'',
         button1:'a',
         /*约课时间点*/
-        appointTime:''
+        appointTime:'',
+        /*场馆模态*/
+        stadiumFlag:false,
+        stadiumList:[],
+        currentStadium:''
       }
     },
     methods:{
@@ -147,12 +170,34 @@
         console.log(this.pickerVisible);
         this.getTimeList(this.pickerVisible)
       },
+      /*选择场馆*/
+      openStadium(){
+        this.stadiumFlag=!this.stadiumFlag;
+        let self =this;
+        self.$http.get('stadium/allStadium').then(function (res) {
+          if(res.result==1){
+            self.stadiumList = res.data;
+          }
+        })
+      },
+      selectStadium(id,name){
+        this.stadiumFlag=!this.stadiumFlag;
+        localStorage.setItem('stadiumId',id)
+        this.currentStadium = name;
+      },
       init(){
-
+        let self=this
+        /*获取当前场馆*/
+        self.$http.get('stadium/stadiumInfo?id='+localStorage.getItem('stadiumId')).then(function (res) {
+          if(res.result==1){
+            self.currentStadium = res.data.name
+          }
+        })
       }
     },
     created:function () {
       this.getTimeList();
+      this.init()
     },
     components:{
       'Vheader':Vhedaer,
