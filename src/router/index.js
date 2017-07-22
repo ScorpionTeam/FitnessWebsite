@@ -15,6 +15,7 @@ import GroupLesson from '../page/GroupLesson.vue'
 import CoachDetail from '../page/CoachDetail.vue'
 import ProfileEdit from '../page/ProfileEdit.vue'
 import ActivityDetail from '../page/ActivityDetail.vue'
+import JoinActivity from '../page/JoinActivity.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -48,6 +49,11 @@ export default new Router({
       path:'/activity-detail/:id',
       name:'活动详情',
       component:ActivityDetail
+    },
+    {
+      path:'/activity-join/:id',
+      name:'参加活动',
+      component:JoinActivity
     },
     {
       path:'/question',

@@ -25,7 +25,7 @@
       <div class="tab">
         <Tabs v-model="tabName" >
           <Tab-pane label="最新活动" name="new">
-            <div class="newActivity" @click="openDetail(2)">
+            <div class="newActivity" v-for='newAct in newActList' @click="joinActivity(newAct.id)">
               <a class="item">
                 <div class="cover">
                   <img src="http://zoneke-img.b0.upaiyun.com/78405808ce6060961a05cdd660d6d08d.jpg!120x120" alt="" >
@@ -33,28 +33,11 @@
                 <div class="cont">
                   <div class="fl sub">New</div>
                   <div class="fr sub">Hot</div>
-                  <div class="mid" style="color:#000">活动标题活动标题活动标题</div>
-                  <div class="deadline">报名截止时间：2017-6-18 16:48</div>
+                  <div class="mid" style="color:#000">{{newAct.name}}</div>
+                  <div class="deadline">报名截止时间：{{newAct.endDate.substring(-1,16)}}</div>
                   <div class="info">
-                    <div class="fl">阅读数: 100</div>
-                    <div class="fr">报名数: 100</div>
-                  </div>
-                </div>
-              </a>
-            </div>
-            <div class="newActivity">
-              <a class="item">
-                <div class="cover">
-                  <img src="http://zoneke-img.b0.upaiyun.com/78405808ce6060961a05cdd660d6d08d.jpg!120x120" alt="" >
-                </div>
-                <div class="cont">
-                  <div class="fl sub">New</div>
-                  <div class="fr sub">Hot</div>
-                  <div class="mid" style="color:#000">活动标题活动标题活动标题</div>
-                  <div class="deadline">报名截止时间：2017-6-18 16:48</div>
-                  <div class="info">
-                    <div class="fl">阅读数: 100</div>
-                    <div class="fr">报名数: 100</div>
+                    <div class="fl">阅读数: {{newAct.visitTotal}}</div>
+                    <div class="fr">报名数: {{newAct.applyTotal}}</div>
                   </div>
                 </div>
               </a>
@@ -62,46 +45,13 @@
           </Tab-pane>
           <Tab-pane label="我的活动" name="my">
             <div class="myActivity">
-              <div class="item">
+              <div class="item" v-for="myAct in myActList" @click="openDetail(myAct.id)">
                 <a class="inner">
                   <img src="http://zoneke-img.b0.upaiyun.com/78405808ce6060961a05cdd660d6d08d.jpg!120x120" alt="" class="img">
                   <div class="mask"></div>
                   <div class="info">
-                    <p>3月15日</p>
-                    <p>香山徒步活动</p>
-                    <p>( 已结束 )</p>
-                  </div>
-                </a>
-              </div>
-              <div class="item">
-                <a class="inner">
-                  <img src="http://zoneke-img.b0.upaiyun.com/78405808ce6060961a05cdd660d6d08d.jpg!120x120" alt="" class="img">
-                  <div class="mask"></div>
-                  <div class="info">
-                    <p>3月15日</p>
-                    <p>香山徒步活动</p>
-                    <p>( 已结束 )</p>
-                  </div>
-                </a>
-              </div>
-              <div class="item">
-                <a class="inner">
-                  <img src="http://zoneke-img.b0.upaiyun.com/78405808ce6060961a05cdd660d6d08d.jpg!120x120" alt="" class="img">
-                  <div class="mask"></div>
-                  <div class="info">
-                    <p>3月15日</p>
-                    <p>香山徒步活动</p>
-                    <p>( 已结束 )</p>
-                  </div>
-                </a>
-              </div>
-              <div class="item">
-                <a class="inner">
-                  <img src="http://zoneke-img.b0.upaiyun.com/78405808ce6060961a05cdd660d6d08d.jpg!120x120" alt="" class="img">
-                  <div class="mask"></div>
-                  <div class="info">
-                    <p>3月15日</p>
-                    <p>香山徒步活动</p>
+                    <p>{{myAct.endDate.substring(5,10)}}</p>
+                    <p class="act_name">{{myAct.name}}</p>
                     <p>( 已结束 )</p>
                   </div>
                 </a>
@@ -109,17 +59,17 @@
             </div>
           </Tab-pane>
           <Tab-pane label="往期活动" name="pass">
-            <div class="newActivity">
+            <div class="newActivity" v-for='pastAct in pastActList' @click="openDetail(pastAct.id)">
               <a class="item">
                 <div class="cover">
                   <img src="http://zoneke-img.b0.upaiyun.com/78405808ce6060961a05cdd660d6d08d.jpg!120x120" alt="" >
                 </div>
                 <div class="cont">
-                  <div class="mid" style="color:#000;font-size: 1.4rem">活动标题活动标题活动标题</div>
-                  <div class="deadline">报名截止时间：2017-6-18 16:48</div>
+                  <div class="mid" style="color:#000;font-size: 1.6rem">{{pastAct.name}}</div>
+                  <div class="deadline">报名截止时间：{{pastAct.endDate.substring(-1,16)}}</div>
                   <div class="info">
-                    <div class="fl">阅读数: 100</div>
-                    <div class="fr">报名数: 100</div>
+                    <div class="fl">阅读数: {{pastAct.visitTotal}}</div>
+                    <div class="fr">报名数: {{pastAct.applyTotal}}</div>
                   </div>
                 </div>
               </a>
@@ -138,7 +88,10 @@
     data(){
       return{
         currentPic:0,
-        tabName:'new'
+        tabName:'new',
+        newActList:[],
+        pastActList:[],
+        myActList:[]
       }
     },
     methods:{
@@ -146,25 +99,34 @@
       openDetail(id){
           this.$router.push({ name: '活动详情', params:{ id: id }})
       },
+      /*参加活动*/
+      joinActivity(id){
+        this.$router.push({ name: '参加活动', params:{ id: id }})
+      },
       newActivity(){
         let self = this;
         let url ='/activity/newActivity?pageNo=1&pageSize=5&stadiumId='+localStorage.getItem('stadiumId')
         self.$http.get(url).then(function(res){
           console.log(res)
+          if(res.result==1){
+            self.newActList =res.data
+          }
         })
       },
       myActivity(){
         let self = this;
         let url ='/activity/myActivity?pageNo=1&pageSize=5&memberId='+localStorage.getItem('fitId')
         self.$http.get(url).then(function(res){
-          console.log(res)
+          if(res.result==1){
+              self.myActList = res.data
+          }
         })
       },
       pastActivity(){
         let self = this;
         let url ='/activity/pastActivity?pageNo=1&pageSize=5&stadiumId='+localStorage.getItem('stadiumId')
         self.$http.get(url).then(function(res){
-          console.log(res)
+           self.pastActList= res.data
         })
       },
       init(){
@@ -295,5 +257,10 @@
         }
       }
     }
+  }
+  .act_name{
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 </style>
