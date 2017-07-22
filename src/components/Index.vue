@@ -163,6 +163,7 @@
 <script>
   import Footer from '../components/Footer.vue'
   import MessageBox from '../common/component'
+  import LoginState from '../common/loginState'
   export default{
     data(){
       return {
@@ -213,15 +214,14 @@
           console.log(res)
           if(res.result==1){
             self.member = res.data
-            /*获取会员对应的场馆*/
-            self.$http.get('stadium/stadiumInfo?id='+res.data.stadiumId).then(function(res){
-                if(res.result==1) {
-                  self.stadiumName = res.data.name
-                  localStorage.setItem('stadiumId',res.data.id)
-                }
-            })
           }else {
             MessageBox.warnAlert(self,res.error.message)
+          }
+        })
+        /*获取会员对应的场馆*/
+        self.$http.get('stadium/stadiumInfo?id='+localStorage.getItem('stadiumId')).then(function(res){
+          if(res.result==1) {
+            self.stadiumName = res.data.name
           }
         })
       },
@@ -230,7 +230,6 @@
         let self =this;
         self.$http.get('stadium/allStadium').then(function (res) {
           if(res.result==1){
-              console.log(res.data)
               self.stadiumList = res.data;
           }
         })
@@ -246,6 +245,7 @@
     },
     created:function () {
       this.init()
+      LoginState.loginCheck()
       console.log(this.$http.defaults.baseURL)
     }
   }

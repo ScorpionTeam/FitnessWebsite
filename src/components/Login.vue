@@ -47,13 +47,13 @@
             self.$refs['login'].validate(res=>{
                 if(res){
                   self.$http.post('/member/login?phone='+self.loginItem.phone+'&password='+self.loginItem.password).then(function (res) {
-                    console.log(res)
                       if(res.result==1){
                         /*本地缓存信息*/
                         Auth.setToken(res.data.oath);
                         Auth.setAccount(res.data.member.phone)
                         Auth.setMemberId(res.data.member.id)
                         Auth.setMemberCardId(res.data.member.memberCardId)
+                        localStorage.setItem('stadiumId',res.data.member.stadiumId)
                         self.$router.push('index')
                     }else {
                         Message.warnAlert(self,res.error.message)
