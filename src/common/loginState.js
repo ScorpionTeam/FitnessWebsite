@@ -5,6 +5,7 @@ export  default {
     if(!token){
       this.loginOut()
       router.push('login');
+      return
     }
   },
   loginOut(){

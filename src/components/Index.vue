@@ -189,6 +189,7 @@
     },
     methods:{
       skipToPage(name){
+        LoginState.loginCheck()
         this.$router.push(name)
       },
       openModal(){

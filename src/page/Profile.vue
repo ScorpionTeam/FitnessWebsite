@@ -43,6 +43,7 @@
   import Vheader from '../components/Header.vue'
   import Vfooter from '../components/Footer.vue'
   import MessageBox from '../common/component'
+  import LoginState from '../common/loginState'
   export default{
     data(){
       return{
@@ -68,6 +69,7 @@
     },
     created:function () {
       this.init()
+      LoginState.loginCheck()
   },
   components:{
     'Vheader':Vheader,
