@@ -14,6 +14,7 @@ import LessionSubmit from '../page/LessionSubmit.vue'
 import GroupLesson from '../page/GroupLesson.vue'
 import CoachDetail from '../page/CoachDetail.vue'
 import ProfileEdit from '../page/ProfileEdit.vue'
+import ActivityDetail from '../page/ActivityDetail.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -42,6 +43,11 @@ export default new Router({
       path:'/activitys',
       name:'热门活动',
       component:Activitys
+    },
+    {
+      path:'/activity-detail/:id',
+      name:'活动详情',
+      component:ActivityDetail
     },
     {
       path:'/question',
