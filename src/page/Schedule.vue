@@ -100,7 +100,7 @@
             </tr>
             <tr v-for=" week in monthTable">
               <td v-for=" day in week">
-                <span>{{day}}</span>
+                <span>{{day.day}}</span>
               </td>
             </tr>
             <!--<tr>
@@ -289,28 +289,34 @@
         for(let i = 0;i<6;i++){
           let c = []
           for(let j = 1 ;j<=7;j++){
+              let dayObj={}
             if(i==0){
               if(j<nowDay){
-                c.push(lastMonthLastDay+j+1-nowDay)
+                dayObj.day = lastMonthLastDay+j+1-nowDay
+                c.push(dayObj)
               }else {
-                c.push(j-nowDay+1)
+                dayObj.day = j-nowDay+1
+                c.push(dayObj)
               }
             }else {
               /*判断是否换行*/
               if(c.length!=0){
                 /*判断是否超过本月最后一天*/
-                if(c[j-2]==MonthLastDay){
-                  c.push(1)
+                if(c[j-2].day==MonthLastDay){
+                  dayObj.day = 1
+                  c.push(dayObj)
                 }else {
-                  c.push(c[j-2]+1)
+                  dayObj.day = c[j-2].day+1
+                  c.push(dayObj)
                 }
               } else{
                 /*判断是否超过本月最后一天*/
-                if(this.monthTable[i-1][6]==MonthLastDay){
-                  c.push(1)
+                if(this.monthTable[i-1][6].day==MonthLastDay){
+                  dayObj.day = 1
+                  c.push(dayObj)
                 }else {
-                  console.log(this.monthTable[i-1][6])
-                  c.push(this.monthTable[i-1][6]+1)
+                    dayObj.day =this.monthTable[i-1][6].day+1
+                  c.push(dayObj)
                 }
               }
             }
