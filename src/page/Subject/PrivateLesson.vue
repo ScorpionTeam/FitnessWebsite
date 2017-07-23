@@ -261,7 +261,7 @@
       <div class="hd">
         <div class="title">请选择课程</div>
         <div class="content">
-          <div v-for="item in subjectList" class="item">
+          <div v-for="(item,index) in subjectList" class="item">
             <div class="media">
               <div class="fl">
                 <img src="http://zoneke-img.b0.upaiyun.com/78405808ce6060961a05cdd660d6d08d.jpg!120x120" alt="课程图片">
@@ -275,7 +275,7 @@
                   <i class="i-time icon"></i>
                   60min
                 </div>
-                <Appoint @click.native="show(0)"></Appoint>
+                <Appoint @click.native="show(index)"></Appoint>
               </div>
             </div>
             <div class="cont" style="display: none">

@@ -106,11 +106,12 @@
         </div>
         <div class="rt">
           <p class="p1"><span style="color:#888">体重: </span>56KG</p>
-          <p class="p1"><span style="color:#888">体脂: </span>:111BMG</p>
-          <p class="p1"><span style="color:#888">肌肉: </span>:111BMG</p>
-          <p class="p1"><span style="color:#888">综合: </span>:111BMG</p>
-          <p class="p2"><a class="link">申请体验</a></p>
-          <p class="p2"><a  class="link">进阶之路</a></p>
+          <p class="p1"><span style="color:#888">体脂: </span>111BMG</p>
+          <p class="p1"><span style="color:#888">肌肉: </span>111BMG</p>
+          <p class="p1"><span style="color:#888">综合:</span><span class="p1"><span style="color:green">仰卧起坐: </span>10</span></p>
+          <p class="p1" style="margin-left: 4.6rem"><span style="color:green">俯卧撑: </span>20</p>
+          <p class="p2"><a class="link" @click="skipToPage('experience')">申请体验</a></p>
+          <p class="p2"><a  class="link" @click="skipToPage('progress')">进阶之路</a></p>
           <p></p>
         </div>
       </div>

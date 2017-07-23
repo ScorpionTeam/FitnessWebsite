@@ -16,6 +16,8 @@ import CoachDetail from '../page/Coach/CoachDetail.vue'
 import ProfileEdit from '../page/person/ProfileEdit.vue'
 import ActivityDetail from '../page/Activity/ActivityDetail.vue'
 import JoinActivity from '../page/Activity/JoinActivity.vue'
+import Experience from '../page/person/Experience.vue'
+import Progress from '../page/person/Progress.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -79,6 +81,16 @@ export default new Router({
       path:'/profile-edit',
       name:'修改信息',
       component:ProfileEdit
+    },
+    {
+      path:'/experience',
+      name:'申请体验',
+      component:Experience
+    },
+    {
+      path:'/progress',
+      name:'进阶之路',
+      component:Progress
     },
     {
       path:'/private-lesson',
