@@ -217,7 +217,7 @@
   <div>
     <Vheader></Vheader>
     <div class="header pt">
-      <mt-navbar v-model="selected">
+      <mt-navbar v-model="selectedTime">
         <mt-tab-item v-for="time in timeList" :key="time.value" :id="time.value">
           <p class="date">{{time.label}}</p>
         </mt-tab-item>
@@ -250,7 +250,7 @@
     <div class="coach-list">
       <div class="hd">全部教练</div>
       <li class="item " v-for="(coach,index) in coachList" @click="selectCoach(coach.id,index)">
-        <div class="avatar coach">
+        <div :class="{avatar:true,coach:true,active:coach.flag}">
           <img src="http://zoneke-img.b0.upaiyun.com/ddf4ad62cc61b79d643b992827ab35be.JPG!120x120" alt="">
         </div>
         <div class="name">{{coach.name}}</div>
@@ -359,7 +359,8 @@
   export default{
     data(){
       return{
-        selected:0,
+        /*选择时间*/
+        selectedTime:0,
         today:0,
         timeList:[],
         pickerVisible:'',
@@ -377,7 +378,7 @@
         selectFlag:false,
         /*课程列表*/
         loadFlag:false,
-        subjectList:[1,2,1,21,21]
+        subjectList:[1,2,1,21,21],
       }
     },
     methods:{
@@ -402,7 +403,7 @@
       },
       getTimeList(data){
         let date= data||new Date();
-        this.selected = getDateFormatter.formatterDate(date)
+        this.selectedTime = getDateFormatter.formatterDate(date)
         this.nowday = new Date();
         let dateObj ={}
         /*获取今天到后天的时间*/
@@ -446,13 +447,15 @@
           console.log(res)
           if(res.result==1){
             self.coachList = res.data
-            setTimeout(self.selectCoach(res.data[0].id,0),1000)
+            /*初始化样式*/
+            for(let i = 0;i<res.data.length;i++){
+              self.coachList[i].flag=i==0?true:false
+            }
+            self.selectCoach(res.data[0].id,0)
           }
         })
       },
       selectCoach(id,index){
-        console.log('index'+index)
-        console.log('id'+id)
         let el = document.getElementsByClassName('coach')
         for(let i =0;i<el.length;i++){
           i==index? classObj.addClass('active',el[index]):classObj.removerClass('active',el[i])
@@ -464,7 +467,7 @@
       loadMore(){
         this.loadFlag=true;
         let self = this;
-        console.log(1)
+        console.log(self.selectedTime)
       },
       /*获取课程*/
       getSubjects(id){
