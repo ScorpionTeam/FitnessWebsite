@@ -34,7 +34,6 @@
       getContent(){
         let self = this;
         self.$http.get('/activity/activityInfo?id='+this.$route.params.id).then(function (res) {
-          console.log(res)
           self.content = res.data
           document.querySelector('.detailContent').innerHTML = res.data.contentHtml
         })

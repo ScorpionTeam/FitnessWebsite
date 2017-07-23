@@ -138,6 +138,15 @@
       }
     },
     methods:{
+      init(){
+        let self=this
+        /*获取当前场馆*/
+        self.$http.get('stadium/stadiumInfo?id='+localStorage.getItem('stadiumId')).then(function (res) {
+          if(res.result==1){
+            self.currentStadium = res.data.name
+          }
+        })
+      },
       skipToPage(name){
         this.$router.push(name)
       },
@@ -184,15 +193,6 @@
         this.stadiumFlag=!this.stadiumFlag;
         localStorage.setItem('stadiumId',id)
         this.currentStadium = name;
-      },
-      init(){
-        let self=this
-        /*获取当前场馆*/
-        self.$http.get('stadium/stadiumInfo?id='+localStorage.getItem('stadiumId')).then(function (res) {
-          if(res.result==1){
-            self.currentStadium = res.data.name
-          }
-        })
       }
     },
     created:function () {

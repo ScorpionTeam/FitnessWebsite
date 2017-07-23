@@ -59,7 +59,6 @@
       }
     },
     created:function () {
-      console.log(this.$route.params)
       this.getContent()
     },
     components:{
