@@ -6,7 +6,7 @@
                :show-upload-list="false">
         <div class="edit-avatar">
           <div class="avatar">
-            <img src="../assets/1.jpg" alt="" ref="header">
+            <img src="../../assets/1.jpg" alt="" ref="header">
           </div>
         </div>
       </Upload>
@@ -44,10 +44,10 @@
   </div>
 </template>
 <script>
-  import Vheader from '../components/Header.vue'
-  import Vfooter from '../components/Footer.vue'
-  import MessageBox from '../common/component'
-  import {headerUrl} from '../common/WebApi'
+  import Vheader from '../../components/Header.vue'
+  import Vfooter from '../../components/Footer.vue'
+  import MessageBox from '../../common/component'
+  import {headerUrl} from '../../common/WebApi'
   export default{
     data(){
       return{

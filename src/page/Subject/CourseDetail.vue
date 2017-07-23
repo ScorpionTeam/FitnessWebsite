@@ -70,8 +70,8 @@
     </div>
 </template>
 <script>
-  import Vhedaer from '../components/Header.vue'
-  import  Vfooter from'../components/Footer.vue'
+  import Vhedaer from '../../components/Header.vue'
+  import  Vfooter from'../../components/Footer.vue'
   export default{
       data(){
           return{

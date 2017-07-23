@@ -35,7 +35,7 @@
           top: 100%;
           left: 0;
           height: 1.3rem;
-          background: url(../assets/border-arrow.png) repeat-x 0 0;
+          background: url(../../assets/border-arrow.png) repeat-x 0 0;
           background-size: auto 100%;
           content: '';
         }
@@ -120,7 +120,7 @@
       <div class="hd">
         <div class="inner">
           <div class="avatar">
-            <img src="../assets/1.jpg" alt="">
+            <img src="../../assets/1.jpg" alt="">
           </div>
           <div class="name">呵呵</div>
           <div class="describe">12321213</div>
@@ -202,8 +202,8 @@
   </div>
 </template>
 <script>
-  import Vhedaer from '../components/Header.vue'
-  import  Vfooter from'../components/Footer.vue'
+  import Vhedaer from '../../components/Header.vue'
+  import  Vfooter from'../../components/Footer.vue'
   export default{
     data(){
       return{
