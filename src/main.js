@@ -9,18 +9,10 @@ import Mint from 'mint-ui';
 import 'iview/dist/styles/iview.css'
 import 'mint-ui/lib/style.css'
 import '../theme/index.scss'
-
 Vue.config.productionTip = false
 Vue.prototype.$http = axios
 Vue.use(Mint);
 Vue.use(iView);
-/* eslint-disable no-new */
-/*new Vue({
-  el: '#app',
-  router,
-  template: '<App/>',
-  components: { App }
-})*/
 new Vue({
   el: '#app',
   axios,
