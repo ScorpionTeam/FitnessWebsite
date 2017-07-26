@@ -152,6 +152,54 @@
       }
     }
   }
+  /*场馆模态*/
+  .select-shop{
+    max-height: 60vh;
+    margin: 0;
+    overflow-y: auto;
+    .item{
+      margin: 0 2.2rem;
+      .link{
+        display: table;
+        width: 100%;
+        padding: 2.2rem 0;
+        line-height: 0;
+        border-bottom: 1px solid #d1d1d1;
+        .pic{
+          display: table-cell;
+          vertical-align: middle;
+          img{
+            width:4.4rem;
+            height: 4.4rem;
+          }
+        }
+        .txt{
+          display: table-cell;
+          width: 100%;
+          padding: 0 1rem;
+          line-height: 1.2;
+          vertical-align: middle;
+          h4{
+            font-size: 1.5rem;
+            font-weight: normal;
+          }
+          p{
+            color: #999;
+            font-size: 1.3rem;
+          }
+        }
+        .ico{
+          display: table-cell;
+          vertical-align: middle;
+          .i-arrow-right{
+            width: .9rem;
+            height: 1.6rem;
+            background-image: url(../../assets/i-arrow-right.png);
+          }
+        }
+      }
+    }
+  }
   /*加载动画*/
   .loadingMore{
     text-align: center;
@@ -169,7 +217,7 @@
   <div>
     <Vheader></Vheader>
     <div class="header pt">
-      <mt-navbar v-model="selected">
+      <mt-navbar v-model="selectedTime">
         <mt-tab-item v-for="time in timeList" :key="time.value" :id="time.value">
           <p class="date">{{time.label}}</p>
         </mt-tab-item>
@@ -202,27 +250,27 @@
     <div class="shcedule-list">
       <div class="hd">
         <div class="content">
-          <div class="item">
+          <div class="item" v-for="group in groupList">
             <div class="media">
               <div class="fl">
                 <img src="http://zoneke-img.b0.upaiyun.com/78405808ce6060961a05cdd660d6d08d.jpg!120x120" alt="课程图片">
               </div>
               <div class="rt">
                 <div class="row">
-                  <a class="fr link" @click="skipToPage('course-detail')">课程详情</a>
-                  <div class="h3">一对一私教课</div>
+                  <a class="fr link" @click="skipToPage('课程详情',group.id)">课程详情</a>
+                  <div class="h3">{{group.name}}</div>
                 </div>
                 <div class="time">
                   <i class="i-time icon"></i>
-                  60min
-                  <a class="fr link" @click="skipToPage('coach-detail')">教练详情</a>
+                  {{group.timeTotal}}min
+                  <a class="fr link" @click="skipToPage('教练详情',group.coachId)">教练详情</a>
                 </div>
               </div>
             </div>
             <div class="join-info">
               <div class="fl">
                 剩余席位
-                <span style="color: #00bfbf;">8/12</span>
+                <span style="color: #00bfbf;">{{group.surplusNum}}/{{group.total}}</span>
               </div>
               <div class="fr">
                 报名截止时间:
@@ -295,19 +343,29 @@
   export default{
     data(){
       return{
-        selected:0,
+        selectedTime:0,
         nowday:'',
         today:0,
         timeList:[],
         pickerVisible:'',
-        button1:'a',
+        /*团课列表*/
+        groupList:[],
         /*约课时间点*/
         appointTime:'',
         /*场馆模态*/
         stadiumFlag:false,
         stadiumList:[],
         currentStadium:'',
-        loadFlag:false
+        loadFlag:false,
+        /*活动分页对象*/
+        page:{
+          pageSize:5
+        }
+      }
+    },
+    watch:{
+      selectedTime:function () {
+        this.load();
       }
     },
     methods:{
@@ -319,9 +377,14 @@
             self.currentStadium = res.data.name
           }
         })
+        self.load();
       },
-      skipToPage(name){
-        this.$router.push(name)
+      skipToPage(name,id){
+          if(id){
+            this.$router.push({name:name,params:{id:id}})
+          }else {
+            this.$router.push(name)
+          }
       },
       /*显示时间点*/
       show(index){
@@ -330,7 +393,7 @@
       },
       getTimeList(data){
         let date= data||new Date();
-        this.selected = getDateFormatter.formatterDate(date)
+        this.selectedTime = getDateFormatter.formatterDate(date)
         this.nowday = new Date();
         let dateObj ={}
         /*获取今天到后天的时间*/
@@ -368,6 +431,17 @@
         this.currentStadium = name;
       },
       /*加载更多*/
+      load(){
+          let self = this;
+          let url = '/groupClass/classListByStadium?pageNo=1&pageSize='+this.page.pageSize+'&stadiumId='+localStorage.getItem('stadiumId')+
+                    '&date='+this.selectedTime
+          self.$http.get(url).then(function (res) {
+            console.log(res)
+            if(res.result==1){
+                self.groupList = res.data
+            }
+          })
+      },
       loadMore(){
           this.loadFlag=true
           console.log(1)

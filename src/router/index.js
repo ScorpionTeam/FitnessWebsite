@@ -103,12 +103,12 @@ export default new Router({
       component:GroupLesson
     },
     {
-      path:'/course-detail',
+      path:'/course-detail/:id',
       name:'课程详情',
       component:CourseDetail
     },
     {
-      path:'/coach-detail',
+      path:'/coach-detail/:id',
       name:'教练详情',
       component:CoachDetail
     },
