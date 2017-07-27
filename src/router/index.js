@@ -113,7 +113,7 @@ export default new Router({
       component:CoachDetail
     },
     {
-      path:'/lession-submit',
+      path:'/lession-submit/:id',
       name:'课程预约提交',
       component:LessionSubmit
     }

@@ -274,16 +274,16 @@
               </div>
               <div class="fr">
                 报名截止时间:
-              <span style="color: #00bfbf;">30分钟</span>
+                <span style="color: #00bfbf;">30分钟</span>
               </div>
             </div>
             <div class="btns">
               <Row>
                 <Col span="11">
-                <Button class="btn-appoint" @click="skipToPage('lession-submit')">预约</Button>
+                <Button class="btn-appoint" @click="skipToPage('课程预约提交',group.id)">预约</Button>
                 </Col>
                 <Col span="12" offset="1">
-                <Button class="btn-appoint food" @click="skipToPage('lession-submit')">预约并约定营养餐</Button>
+                <Button class="btn-appoint food" @click="skipToPage('课程预约提交',group.id)">预约并约定营养餐</Button>
                 </Col>
               </Row>
             </div>
@@ -297,9 +297,9 @@
       </div>
     </div>
     <div class="previous-img">
-        <div class="hd">
-          <span>往期图片</span>
-        </div>
+      <div class="hd">
+        <span>往期图片</span>
+      </div>
     </div>
     <p></p>
     <mt-datetime-picker
@@ -380,17 +380,18 @@
         self.load();
       },
       skipToPage(name,id){
-          if(id){
-            this.$router.push({name:name,params:{id:id}})
-          }else {
-            this.$router.push(name)
-          }
+        if(id){
+          this.$router.push({name:name,params:{id:id}})
+        }else {
+          this.$router.push(name)
+        }
       },
       /*显示时间点*/
       show(index){
         let cont = document.getElementsByClassName('cont');
         cont[index].style.display=cont[index].style.display=='none'?'inline-block':'none';
       },
+      /*选择时间*/
       getTimeList(data){
         let date= data||new Date();
         this.selectedTime = getDateFormatter.formatterDate(date)
@@ -429,22 +430,26 @@
         this.stadiumFlag=!this.stadiumFlag;
         localStorage.setItem('stadiumId',id)
         this.currentStadium = name;
+        /*换场馆后重新加载列表*/
+        this.load()
       },
       /*加载更多*/
       load(){
-          let self = this;
-          let url = '/groupClass/classListByStadium?pageNo=1&pageSize='+this.page.pageSize+'&stadiumId='+localStorage.getItem('stadiumId')+
-                    '&date='+this.selectedTime
-          self.$http.get(url).then(function (res) {
-            console.log(res)
-            if(res.result==1){
-                self.groupList = res.data
-            }
-          })
+        let self = this;
+        let url = '/groupClass/classListByStadium?pageNo=1&pageSize='+this.page.pageSize+'&stadiumId='+localStorage.getItem('stadiumId')+
+          '&date='+this.selectedTime
+        self.$http.get(url).then(function (res) {
+          if(res.result==1){
+            self.groupList = res.data
+            self.loadFlag=false
+          }
+        })
       },
       loadMore(){
-          this.loadFlag=true
-          console.log(1)
+        this.loadFlag=true
+        this.page.pageSize = this.page.pageSize + 5 ;
+        this.load()
+        console.log(1)
       }
     },
     created:function () {

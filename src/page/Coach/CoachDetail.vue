@@ -71,8 +71,8 @@
         .tag-list {
           margin-top: 1.2rem;
           .tag{
-             margin: 0 1.5rem 1rem 0;
-           }
+            margin: 0 1.5rem 1rem 0;
+          }
         }
       }
       .panel {
@@ -122,8 +122,8 @@
           <div class="avatar">
             <img src="../../assets/1.jpg" alt="">
           </div>
-          <div class="name">呵呵</div>
-          <div class="describe">12321213</div>
+          <div class="name">{{coachDetail.name}}</div>
+          <div class="describe">{{coachDetail.description}}</div>
         </div>
       </div>
       <div class="bd">
@@ -157,7 +157,7 @@
           </div>
           <div class="pbd">
             <i class="icon i-phone"></i>
-            电话 18651811111
+            电话 {{coachDetail.phone}}
           </div>
         </div>
         <div class="panel">
@@ -166,9 +166,9 @@
             资质认证
           </div>
           <div class="pbd">
-            <p><span class="tit">发证机构：</span>赛普健身学院</p>
-            <p><span class="tit">发证日期：</span>2015-09-18</p>
-            <p><span class="tit">有效期：</span>2015-09-18</p>
+            <p><span class="tit">发证机构：</span>{{coachDetail.organization}}</p>
+            <p><span class="tit">发证日期：</span>{{coachDetail.updateDate}}</p>
+            <p><span class="tit">有效期：</span>{{coachDetail.validDate}}</p>
           </div>
         </div>
         <div class="panel">
@@ -207,8 +207,27 @@
   export default{
     data(){
       return{
-        valueDisabled:5
+        valueDisabled:5,
+        coachDetail:{}
       }
+    },
+    methods:{
+      init(){
+        this.getCoachDetail(this.$route.params.id)
+      },
+      /*教练详情*/
+      getCoachDetail(id){
+        let self = this;
+        self.$http.get('/coach/coachInfo?id='+id).then(function (res) {
+          console.log(res)
+          if(res.result==1){
+            self.coachDetail = res.data
+          }
+        })
+      }
+    },
+    created:function () {
+      this.init()
     },
     components:{
       'Vheader':Vhedaer,
