@@ -130,13 +130,13 @@
         <div class="evaluation">
           <div class="item">
             <p>教练评分</p>
-            <p class="score">5.0</p>
-            <Rate disabled v-model="valueDisabled"></Rate>
+            <p class="score">{{coachDetail.grade.coachScore}}</p>
+            <Rate disabled v-model="coachDetail.grade.classScore"></Rate>
           </div>
           <div class="item">
             <p>课程评分</p>
-            <p class="score">5.0</p>
-            <Rate disabled v-model="valueDisabled"></Rate>
+            <p class="score">{{coachDetail.grade.classScore}}</p>
+            <Rate disabled v-model="coachDetail.grade.classScore"></Rate>
           </div>
           <div class="item standard">评价基于<span>5</span>条评论</div>
         </div>

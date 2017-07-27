@@ -102,18 +102,18 @@
         <div class="evaluation">
           <div class="item">
             <p>教练评分</p>
-            <p class="score">5.0</p>
-            <Rate disabled v-model="valueDisabled"></Rate>
+            <p class="score">{{courseDetail.grade.coachScore}}</p>
+            <Rate disabled v-model="courseDetail.grade.coachScore"></Rate>
           </div>
           <div class="item">
             <p>课程评分</p>
-            <p class="score">5.0</p>
-            <Rate disabled v-model="valueDisabled"></Rate>
+            <p class="score">{{courseDetail.grade.classScore}}</p>
+            <Rate disabled v-model="courseDetail.grade.classScore"></Rate>
           </div>
           <div class="item">
             <p>服务评分</p>
-            <p class="score">5.0</p>
-            <Rate disabled v-model="valueDisabled"></Rate>
+            <p class="score">{{courseDetail.grade.serviceScore}}</p>
+            <Rate disabled v-model="courseDetail.grade.serviceScore"></Rate>
           </div>
         </div>
         <div class="impressions ">
@@ -140,7 +140,13 @@
       return{
         currentPic:1,
         valueDisabled:5,
-        courseDetail:{},
+        courseDetail:{
+          grade:{
+            classScore:0,
+            coachScore:0,
+            serviceScore:0
+          }
+        },
         coachDetail:{}
       }
     },
@@ -151,8 +157,9 @@
       /*获取课程详情*/
       getCourseDetail(){
         let self = this;
-        self.$http.get('/groupClass/classInfo?id='+this.$route.params.id).then(function (res) {
+        self.$http.get('/groupClass/classInfoByClassId?classId='+this.$route.params.id).then(function (res) {
           if(res.result==1){
+              console.log(res)
             self.courseDetail = res.data
             self.getCoachDetail(res.data.coachId)
           }

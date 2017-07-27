@@ -139,8 +139,8 @@
               <img src="../../assets/1.jpg" alt="">
             </div>
             <div class="info">
-              <div class="name">匡威</div>
-              <Rate disabled v-model="valueDisabled"></Rate>
+              <div class="name">{{coachDetail.name}}</div>
+              <Rate disabled v-model="coachDetail.grade.coachScore"></Rate>
             </div>
           </div>
         </div>
@@ -182,10 +182,10 @@
       /*获取课程详情*/
       getCourseDetail(){
         let self = this;
-        self.$http.get('/groupClass/classInfo?id='+this.$route.params.id).then(function (res) {
+        self.$http.get('/groupClass/classInfoByClassId?classId='+this.$route.params.id).then(function (res) {
           if(res.result==1){
             self.courseDetail = res.data
-            self.getCoachDetail(res.data.id)
+            self.getCoachDetail(res.data.coachId)
           }
 
         })
@@ -212,7 +212,7 @@
           })
       },
       submitHandler(){
-          let url = '/groupClass/apply?memberId='+localStorage.getItem('fitId')+'&id='+this.courseDetail.id
+          let url = '/groupClass/apply?memberId='+localStorage.getItem('fitId')+'&classId='+this.courseDetail.id
           let self = this;
           self.$http.post(url).then(function (res) {
             console.log(res)
