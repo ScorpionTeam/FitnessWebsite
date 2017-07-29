@@ -143,7 +143,7 @@
         <div class="specialty">
           <div class="title">擅长（根据课程计划统计）：</div>
           <div class="tag-list">
-            <Tag type="border" class="tag">好好好</Tag>
+            <Tag type="border" class="tag" v-for="(good,index) in coachDetail.goodAt" :key="index">{{good}}</Tag>
             <Tag type="border" class="tag">好好好</Tag>
             <Tag type="border" class="tag">好好阿萨德啊啊所多好</Tag>
             <Tag type="border" class="tag">好好好</Tag>
@@ -191,7 +191,7 @@
             学员评价
           </div>
           <div class="pbd">
-            <Tag class="tag" type="border" v-for="(impression,index) in coachImpression" :key="index">{{impression}}</Tag>
+            <Tag class="tag" type="border" v-for="(impression,index) in coachDetail.impressionList" :key="index">{{impression}}</Tag>
             <Tag class="tag" type="border">666666</Tag>
             <Tag class="tag" type="border">好好好</Tag>
           </div>
@@ -210,8 +210,7 @@
         valueDisabled:5,
         coachDetail:{
             grade:{}
-        },
-        coachImpression:[]
+        }
       }
     },
     methods:{
@@ -224,19 +223,8 @@
         self.$http.get('/coach/coachInfo?id='+id).then(function (res) {
           if(res.result==1){
             self.coachDetail = res.data
-            self.getImpression(res.data.id)
           }
         })
-      },
-      /*获取教练评价*/
-      getImpression(id){
-          let url= 'remark/getImpression?coachId='+id
-          let self = this;
-          self.$http.get(url).then(function (res) {
-             if(res.result==1){
-                 self.coachImpression = res.data;
-             }
-          })
       }
     },
     created:function () {

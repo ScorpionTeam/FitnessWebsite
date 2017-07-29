@@ -288,7 +288,7 @@
               </Row>
             </div>
           </div>
-          <div class="loadingMore" @click="loadMore">加载更多</div>
+          <div class="loadingMore" v-if='loadMoreFlag' @click="loadMore('more')">加载更多</div>
           <Spin fix style="position: relative" v-if="loadFlag">
             <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
             <div>Loading</div>
@@ -346,6 +346,7 @@
         selectedTime:0,
         nowday:'',
         today:0,
+        loadMoreFlag:true,
         timeList:[],
         pickerVisible:'',
         /*团课列表*/
@@ -365,6 +366,8 @@
     },
     watch:{
       selectedTime:function () {
+        /*重置加载更多按钮*/
+        this.loadMoreFlag = true
         this.load();
       }
     },
@@ -431,10 +434,12 @@
         localStorage.setItem('stadiumId',id)
         this.currentStadium = name;
         /*换场馆后重新加载列表*/
+        /*重置加载按钮*/
+        self.loadMoreFlag = true
         this.load()
       },
       /*加载更多*/
-      load(){
+      load(action){
         let self = this;
         let url = '/groupClass/classListByStadium?pageNo=1&pageSize='+this.page.pageSize+'&stadiumId='+localStorage.getItem('stadiumId')+
           '&date='+this.selectedTime
@@ -442,14 +447,17 @@
           if(res.result==1){
             self.groupList = res.data
             self.loadFlag=false
+            if(self.page.pageSize>res.total&&action=='more'){
+              self.loadMoreFlag = false
+              self.$toast('没有更多啦')
+            }
           }
         })
       },
-      loadMore(){
+      loadMore(action){
         this.loadFlag=true
         this.page.pageSize = this.page.pageSize + 5 ;
-        this.load()
-        console.log(1)
+        this.load(action)
       }
     },
     created:function () {

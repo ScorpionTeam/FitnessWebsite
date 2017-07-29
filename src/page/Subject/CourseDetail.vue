@@ -102,24 +102,24 @@
         <div class="evaluation">
           <div class="item">
             <p>教练评分</p>
-            <p class="score">{{courseDetail.grade.coachScore}}</p>
-            <Rate disabled v-model="courseDetail.grade.coachScore"></Rate>
+            <p class="score">{{coachDetail.grade.coachScore}}</p>
+            <Rate disabled v-model="coachDetail.grade.coachScore"></Rate>
           </div>
           <div class="item">
             <p>课程评分</p>
-            <p class="score">{{courseDetail.grade.classScore}}</p>
-            <Rate disabled v-model="courseDetail.grade.classScore"></Rate>
+            <p class="score">{{coachDetail.grade.classScore}}</p>
+            <Rate disabled v-model="coachDetail.grade.classScore"></Rate>
           </div>
           <div class="item">
             <p>服务评分</p>
-            <p class="score">{{courseDetail.grade.serviceScore}}</p>
-            <Rate disabled v-model="courseDetail.grade.serviceScore"></Rate>
+            <p class="score">{{coachDetail.grade.serviceScore}}</p>
+            <Rate disabled v-model="coachDetail.grade.serviceScore"></Rate>
           </div>
         </div>
         <div class="impressions ">
           <div class="hd">印象</div>
           <div class="bd">
-            <Tag type="border"  color="yellow" class="tag" v-for="(impression,index) in impression" :key="index">{{impression}}</Tag>
+            <Tag type="border"  color="yellow" class="tag" v-for="(impression,index) in coachDetail.impressionList" :key="index">{{impression}}</Tag>
             <Tag type="border"  color="yellow" class="tag">很满意！</Tag>
             <Tag type="border"  color="yellow" class="tag">很满意！</Tag>
           </div>
@@ -147,8 +147,9 @@
             serviceScore:0
           }
         },
-        coachDetail:{},
-        impression:[]
+        coachDetail:{
+            grade:{}
+        }
       }
     },
     methods:{
@@ -160,11 +161,8 @@
         let self = this;
         self.$http.get('/groupClass/classInfoByClassId?classId='+this.$route.params.id).then(function (res) {
           if(res.result==1){
-              console.log(res)
             self.courseDetail = res.data
-            console.log(self.courseDetail)
             self.getCoachDetail(res.data.coachId)
-            self.getImpression(res.data.coachId)
           }
 
         })
@@ -173,22 +171,12 @@
       getCoachDetail(id){
         let self = this;
         self.$http.get('/coach/coachInfo?id='+id).then(function (res) {
-          console.log(res.data)
           if(res.result==1){
             self.coachDetail = res.data
+            console.log(res.data)
           }
         })
       },
-      /*获取教练评价*/
-      getImpression(id){
-        let url= 'remark/getImpression?coachId='+id
-        let self = this;
-        self.$http.get(url).then(function (res) {
-          if(res.result==1){
-            self.impression = res.data;
-          }
-        })
-      }
     },
     components:{
       'Vheader':Vhedaer,
