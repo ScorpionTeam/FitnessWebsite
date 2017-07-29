@@ -131,7 +131,7 @@
           <div class="item">
             <p>教练评分</p>
             <p class="score">{{coachDetail.grade.coachScore}}</p>
-            <Rate disabled v-model="coachDetail.grade.classScore"></Rate>
+            <Rate disabled v-model="coachDetail.grade.coachScore"></Rate>
           </div>
           <div class="item">
             <p>课程评分</p>
@@ -191,7 +191,7 @@
             学员评价
           </div>
           <div class="pbd">
-            <Tag class="tag" type="border">么么么</Tag>
+            <Tag class="tag" type="border" v-for="(impression,index) in coachImpression" :key="index">{{impression}}</Tag>
             <Tag class="tag" type="border">666666</Tag>
             <Tag class="tag" type="border">好好好</Tag>
           </div>
@@ -208,7 +208,10 @@
     data(){
       return{
         valueDisabled:5,
-        coachDetail:{}
+        coachDetail:{
+            grade:{}
+        },
+        coachImpression:[]
       }
     },
     methods:{
@@ -219,11 +222,21 @@
       getCoachDetail(id){
         let self = this;
         self.$http.get('/coach/coachInfo?id='+id).then(function (res) {
-          console.log(res)
           if(res.result==1){
             self.coachDetail = res.data
+            self.getImpression(res.data.id)
           }
         })
+      },
+      /*获取教练评价*/
+      getImpression(id){
+          let url= 'remark/getImpression?coachId='+id
+          let self = this;
+          self.$http.get(url).then(function (res) {
+             if(res.result==1){
+                 self.coachImpression = res.data;
+             }
+          })
       }
     },
     created:function () {

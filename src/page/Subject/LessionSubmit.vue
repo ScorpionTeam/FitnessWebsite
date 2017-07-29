@@ -165,7 +165,9 @@
       return{
         valueDisabled:5,
         courseDetail:{},
-        coachDetail:{}
+        coachDetail:{
+          grade:{}
+        }
       }
     },
     methods:{

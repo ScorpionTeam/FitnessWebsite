@@ -119,7 +119,7 @@
         <div class="impressions ">
           <div class="hd">印象</div>
           <div class="bd">
-            <Tag type="border"  color="yellow" class="tag">赞老师专业和耐心的指导！</Tag>
+            <Tag type="border"  color="yellow" class="tag" v-for="(impression,index) in impression" :key="index">{{impression}}</Tag>
             <Tag type="border"  color="yellow" class="tag">很满意！</Tag>
             <Tag type="border"  color="yellow" class="tag">很满意！</Tag>
           </div>
@@ -147,7 +147,8 @@
             serviceScore:0
           }
         },
-        coachDetail:{}
+        coachDetail:{},
+        impression:[]
       }
     },
     methods:{
@@ -161,7 +162,9 @@
           if(res.result==1){
               console.log(res)
             self.courseDetail = res.data
+            console.log(self.courseDetail)
             self.getCoachDetail(res.data.coachId)
+            self.getImpression(res.data.coachId)
           }
 
         })
@@ -170,8 +173,19 @@
       getCoachDetail(id){
         let self = this;
         self.$http.get('/coach/coachInfo?id='+id).then(function (res) {
+          console.log(res.data)
           if(res.result==1){
             self.coachDetail = res.data
+          }
+        })
+      },
+      /*获取教练评价*/
+      getImpression(id){
+        let url= 'remark/getImpression?coachId='+id
+        let self = this;
+        self.$http.get(url).then(function (res) {
+          if(res.result==1){
+            self.impression = res.data;
           }
         })
       }
