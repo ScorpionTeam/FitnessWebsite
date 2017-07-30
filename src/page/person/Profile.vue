@@ -81,7 +81,7 @@
       <div class="info">
         <div class="fl">
           <div class="avatar">
-            <img src="../../assets/1.jpg" alt="">
+            <img src="" alt="" ref="headerPic">
           </div>
         </div>
         <div class="rt">
@@ -124,6 +124,7 @@
   import Vfooter from '../../components/Footer.vue'
   import MessageBox from '../../common/component'
   import LoginState from '../../common/loginState'
+  import {headerUrl} from '../../common/WebApi'
   export default{
     data(){
       return{
@@ -139,6 +140,8 @@
         let self = this;
         self.$http.get('/member/memberInfo?id=' + localStorage.getItem('fitId')).then(function (res) {
           if (res.result == 1) {
+            /*初始化头像*/
+            self.$refs['headerPic'].src = headerUrl+res.data.imgUrl
             self.member = res.data
             self.member.sex = self.member.sex == '1' ? '男' : '女'
           } else {
@@ -150,10 +153,10 @@
     created:function () {
       this.init()
       LoginState.loginCheck()
-  },
-  components:{
-    'Vheader':Vheader,
+    },
+    components:{
+      'Vheader':Vheader,
       'Vfooter':Vfooter
-  }
+    }
   }
 </script>

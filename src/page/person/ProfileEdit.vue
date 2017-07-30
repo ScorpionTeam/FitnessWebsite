@@ -6,7 +6,7 @@
                :show-upload-list="false">
         <div class="edit-avatar">
           <div class="avatar">
-            <img src="../../assets/1.jpg" alt="" ref="header">
+            <img src="" alt="" ref="headerPic">
           </div>
         </div>
       </Upload>
@@ -71,7 +71,9 @@
         self.upBaseUrl = this.$http.defaults.baseURL;
         self.$http.get('/member/memberInfo?id=' + localStorage.getItem('fitId')).then(function (res) {
           if (res.result == 1) {
+              console.log(res)
             self.personForm = res.data
+            self.$refs['headerPic'].src = headerUrl + res.data.imgUrl
           } else {
             MessageBox.warnAlert(self, res.error.message)
           }
@@ -97,9 +99,9 @@
       },
       selectSuccess(res,file,fileList){
         console.log(res)
-        console.log(file)
         let baseUrl = headerUrl
-        this.$refs['header'].src=baseUrl+res.name;
+        this.personForm.imgUrl = res.data.url;
+        this.$refs['headerPic'].src=baseUrl+res.data.url;
       }
     },
     created:function () {

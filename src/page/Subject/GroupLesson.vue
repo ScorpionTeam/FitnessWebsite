@@ -214,7 +214,7 @@
   }
 </style>
 <template>
-  <div>
+  <div style="background: #f8f8f8">
     <Vheader></Vheader>
     <div class="header pt">
       <mt-navbar v-model="selectedTime">
