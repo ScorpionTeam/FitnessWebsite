@@ -88,10 +88,10 @@
           <div class="row">姓名 : {{member.name}}</div>
           <div class="row">性别 : {{member.sex}}</div>
           <div class="row">年龄 : {{member.age}}岁</div>
-          <div class="row">电话 : {{member.phone}}</div>
+          <div class="row">手机 : {{member.phone}}</div>
           <div class="row">邮箱 : {{member.email}}</div>
           <div class="row">注册日期 : {{member.createDate}}</div>
-          <div class="row">课程情况 : WBBAA</div>
+          <div class="row">课程情况 : 已学{{member.classTotal-member.classSurplus}}课,待学{{member.classSurplus}}课</div>
           <a class="edit" @click="skipToPage('profile-edit')">
             <i class="i-edit"></i>
           </a>
@@ -140,6 +140,7 @@
         let self = this;
         self.$http.get('/member/memberInfo?id=' + localStorage.getItem('fitId')).then(function (res) {
           if (res.result == 1) {
+              console.log(res)
             /*初始化头像*/
             self.$refs['headerPic'].src = headerUrl+res.data.imgUrl
             self.member = res.data

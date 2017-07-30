@@ -3,7 +3,7 @@
     <Vheader></Vheader>
     <div class="profile-edit">
       <Upload :action="upBaseUrl+'/img/upload'" ref="header" :max-size="5120" :on-success="selectSuccess"
-               :show-upload-list="false">
+              :show-upload-list="false">
         <div class="edit-avatar">
           <div class="avatar">
             <img src="" alt="" ref="headerPic">
@@ -28,8 +28,8 @@
           <Form-item label="年龄" prop="age">
             <Input v-model="personForm.age" number></Input>
           </Form-item>
-          <Form-item label="电话" prop="phone">
-            <Input v-model="personForm.phone"></Input>
+          <Form-item label="手机" prop="phone">
+            <Input v-model="personForm.phone" disabled></Input>
           </Form-item>
           <Form-item label="邮箱" prop="email">
             <Input v-model="personForm.email"></Input>
@@ -37,7 +37,7 @@
         </Form>
       </div>
       <div class="submit">
-        <Button class="btn" @click="modify">保存</Button>
+        <Button class="btn" @click="modifyConfirm">保存</Button>
       </div>
     </div>
     <Vfooter></Vfooter>
@@ -71,11 +71,21 @@
         self.upBaseUrl = this.$http.defaults.baseURL;
         self.$http.get('/member/memberInfo?id=' + localStorage.getItem('fitId')).then(function (res) {
           if (res.result == 1) {
-              console.log(res)
+            console.log(res)
             self.personForm = res.data
             self.$refs['headerPic'].src = headerUrl + res.data.imgUrl
           } else {
             MessageBox.warnAlert(self, res.error.message)
+          }
+        })
+      },
+      modifyConfirm(){
+        let self =this;
+        self.$Modal.confirm({
+          title:'修改确认',
+          content:'确认修改内容么？',
+          onOk:function(){
+            self.modify()
           }
         })
       },
