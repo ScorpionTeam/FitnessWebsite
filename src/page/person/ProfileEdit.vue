@@ -81,13 +81,9 @@
       },
       modifyConfirm(){
         let self =this;
-        self.$Modal.confirm({
-          title:'修改确认',
-          content:'确认修改内容么？',
-          onOk:function(){
-            self.modify()
-          }
-        })
+        self.$messagebox.confirm('确定修改信息么').then(function (res) {
+          self.modify()
+        }).catch(function (cancel) {})
       },
       modify(){
         let self = this;

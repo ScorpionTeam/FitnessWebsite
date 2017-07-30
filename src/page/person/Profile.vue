@@ -73,6 +73,11 @@
       }
     }
   }
+  .logout{
+    padding: 2rem;
+    margin-top: 1rem;
+    background-color: #fff;
+  }
 </style>
 <template>
   <div>
@@ -116,6 +121,7 @@
         </div>
       </div>
     </div>
+    <div class="logout" @click="logOutConfirm">退出</div>
     <Vfooter></Vfooter>
   </div>
 </template>
@@ -140,7 +146,7 @@
         let self = this;
         self.$http.get('/member/memberInfo?id=' + localStorage.getItem('fitId')).then(function (res) {
           if (res.result == 1) {
-              console.log(res)
+            console.log(res)
             /*初始化头像*/
             self.$refs['headerPic'].src = headerUrl+res.data.imgUrl
             self.member = res.data
@@ -149,6 +155,23 @@
             MessageBox.warnAlert(self, res.error.message)
           }
         })
+      },
+      /*退出登录*/
+      logOutConfirm(){
+        let self = this;
+        self.$messagebox.confirm('确定退出么').then(function (res) {
+            self.logOut()
+        }).catch(function (cancel) {})
+      },
+      logOut(){
+        /*删除缓存*/
+        localStorage.removeItem('fitOath')
+        localStorage.removeItem('fitAccount')
+        localStorage.removeItem('fitId')
+        localStorage.removeItem('cardId')
+        localStorage.removeItem('stadiumId')
+        /*回到首页*/
+        this.$router.push('index')
       }
     },
     created:function () {

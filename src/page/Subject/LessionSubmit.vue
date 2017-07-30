@@ -205,12 +205,10 @@
       /*约课*/
       submitConfirm(id){
           let self = this;
-          self.$Modal.confirm({
-              title:'预约确认',
-            content:'确认预约该课程?',
-            onOk:function () {
-              self.submitHandler()
-            }
+          self.$messagebox.confirm('确认预约该课程？').then(function (res) {
+            self.submitHandler()
+          }).catch(function () {
+
           })
       },
       submitHandler(){
