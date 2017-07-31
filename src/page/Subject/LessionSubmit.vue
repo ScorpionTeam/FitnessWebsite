@@ -113,9 +113,10 @@
       overflow: hidden;
     }
     .item{
+      border-bottom:1px solid #c1c1c1 ;
       overflow: hidden;
       list-style: none;
-      padding: 1rem;
+      padding: 2rem 1rem;
       font-size: 1.6rem;
       .lf{
         float: left;
@@ -196,14 +197,14 @@
           </div>
         </div>
       </div>
-      <div class="meal">
+      <div class="meal" v-if="mealFlag">
         <ul>
           <li class="item" v-for="meal in mealList">
-            <div class="lf">{{meal.name}}</div>
+            <div class="lf">餐名:{{meal.name}}</div>
             <div class="rg">价格: {{meal.price}}</div>
             <div class="lf">余量: {{meal.total}}</div>
             <div class="lf">简介: {{meal.content}}</div>
-            <Button class="meal-btn" long type="primary">预约</Button>
+            <Button class="meal-btn" long type="primary" @click="mealConfirm(meal.id)">预约</Button>
           </li>
         </ul>
         <!--<table>
@@ -236,7 +237,7 @@
         </div>
       </div>
     </div>
-    <Button class="btn-submit" @click="submitConfirm">确定预约</Button>
+    <Button class="btn-submit" @click="submitConfirm" v-if="!mealFlag">确定预约</Button>
     <Vfooter></Vfooter>
   </div>
 </template>
@@ -322,6 +323,33 @@
             self.mealList = res.data
           }
         })
+      },
+      /*提交营养餐预定*/
+      mealConfirm(mealId){
+          let self= this;
+          self.$messagebox.confirm('确认预定该套餐?').then(function (res) {
+             self.mealSubmit(mealId)
+          }).catch(function (cancel) {
+
+          })
+      },
+      mealSubmit(mealId){
+        let self=this;
+        /*传递对象*/
+        let data = {}
+        data.memberId = Number(localStorage.getItem('fitId'))
+        data.classId = Number(this.$route.params.id)
+        data.mealId = mealId
+        data.type = '1'
+        console.log(data)
+        let url = '/mealClass/apply?memberId='+data.memberId+'&classId='+data.classId+'&mealId='+data.mealId+'&type=1'
+         self.$http.post(url).then(function (res) {
+         if(res.result==1){
+         self.$messagebox.alert('预约成功')
+         }else {
+           self.$messagebox.alert(res.error.message)
+         }
+         })
       }
     },
     created:function () {
