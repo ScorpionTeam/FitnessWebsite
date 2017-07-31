@@ -102,6 +102,57 @@
     background-color: #00bfbf;
     border-radius: .5rem;
   }
+  /*套餐*/
+  .meal{
+    border-top: 1px solid #f8f8f8;
+    background: #fff;
+    padding: 2rem;
+    .introduce{
+      text-overflow:ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+    .item{
+      overflow: hidden;
+      list-style: none;
+      padding: 1rem;
+      font-size: 1.6rem;
+      .lf{
+        float: left;
+        text-align: center;
+        margin-bottom: 0.5rem;
+        width: 50%;
+      }
+      .rg{
+        width: 50%;
+        text-align: center;
+        margin-bottom: 0.5rem;
+        float: right;
+      }
+    }
+    .meal-btn{
+      margin-top: 1rem;
+    }
+    table{
+      width: 100%;
+      border-collapse: collapse;
+      td{
+        padding: 5px;
+        border: 1px solid;
+        text-align: center;
+      }
+    }
+    /*  h3{
+        display: inline-block;
+        margin-right: 2rem;
+      }
+      .introduce{
+        margin-left:2rem;
+        text-overflow:ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+      }*/
+  }
 </style>
 <template>
   <div>
@@ -145,6 +196,39 @@
           </div>
         </div>
       </div>
+      <div class="meal">
+        <ul>
+          <li class="item" v-for="meal in mealList">
+            <div class="lf">{{meal.name}}</div>
+            <div class="rg">价格: {{meal.price}}</div>
+            <div class="lf">余量: {{meal.total}}</div>
+            <div class="lf">简介: {{meal.content}}</div>
+            <Button class="meal-btn" long type="primary">预约</Button>
+          </li>
+        </ul>
+        <!--<table>
+          <tr>
+            <td colspan="1">套餐名</td>
+            <td colspan="1">余量</td>
+            <td colspan="1">价格</td>
+            <td colspan="7">简介</td>
+          </tr>
+          <tr v-for="meal in mealList">
+            <td>
+              <span>{{meal.name}}</span>
+            </td>
+            <td>
+              <span>{{meal.total}}</span>
+            </td>
+            <td>
+              <span>{{meal.price}}</span>
+            </td>
+            <td>
+              <span class="introduce">{{meal.content}}</span>
+            </td>
+          </tr>
+        </table>-->
+      </div>
       <div class="row mt">
         <div class="lf">备注</div>
         <div class="rt">
@@ -163,16 +247,23 @@
   export default{
     data(){
       return{
+        disabledGroup:'',
         valueDisabled:5,
         courseDetail:{},
         coachDetail:{
           grade:{}
-        }
+        },
+        /*营养餐*/
+        mealFlag:false,
+        mealList:[],
+        mealId:''
       }
     },
     methods:{
       init(){
+        this.mealFlag=  this.$route.params.mealFlag == '1'?true:false
         this.getCourseDetail()
+        this.getMealList()
       },
       skipToPage(name,id){
         if(id){
@@ -196,7 +287,6 @@
       getCoachDetail(id){
         let self = this;
         self.$http.get('/coach/coachInfo?id='+id).then(function (res) {
-          console.log(res)
           if(res.result==1){
             self.coachDetail = res.data
           }
@@ -204,24 +294,34 @@
       },
       /*约课*/
       submitConfirm(id){
-          let self = this;
-          self.$messagebox.confirm('确认预约该课程？').then(function (res) {
-            self.submitHandler()
-          }).catch(function () {
+        let self = this;
+        self.$messagebox.confirm('确认预约该课程？').then(function (res) {
+          self.submitHandler()
+        }).catch(function () {
 
-          })
+        })
       },
       submitHandler(){
-          let url = '/groupClass/apply?memberId='+localStorage.getItem('fitId')+'&classId='+this.courseDetail.id
-          let self = this;
-          self.$http.post(url).then(function (res) {
-            console.log(res)
-            if(res.result==1){
-                self.$toast('预约成功')
-            }else {
-                MessageBox.warnAlert(self,res.error.message)
-            }
-          })
+        let url = '/groupClass/apply?memberId='+localStorage.getItem('fitId')+'&classId='+this.courseDetail.id
+        let self = this;
+        self.$http.post(url).then(function (res) {
+          console.log(res)
+          if(res.result==1){
+            self.$toast('预约成功')
+          }else {
+            MessageBox.warnAlert(self,res.error.message)
+          }
+        })
+      },
+      /*获取营养餐*/
+      getMealList(){
+        let self = this;
+        this.$http.get('/meal/listByStadiumId?stadiumId='+localStorage.getItem('stadiumId')).then(function (res) {
+          console.log(res)
+          if(res.result==1){
+            self.mealList = res.data
+          }
+        })
       }
     },
     created:function () {
