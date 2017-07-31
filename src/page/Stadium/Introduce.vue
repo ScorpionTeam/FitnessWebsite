@@ -1,7 +1,7 @@
 <template>
   <div>
     <Vheader :stadiumName="name"></Vheader>
-    <div style="background: #fff" class="content">
+    <div style="background: #fff" class="content ql-editor">
       {{detail.content}}
     </div>
     <Vfooter></Vfooter>
@@ -39,4 +39,7 @@
   }
 </script>
 <style scoped rel='stylesheet/scss' lang='scss'>
+  .content{
+    text-align: center;
+  }
 </style>

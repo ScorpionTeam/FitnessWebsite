@@ -74,9 +74,7 @@
     }
   }
   .logout{
-    padding: 2rem;
-    margin-top: 1rem;
-    background-color: #fff;
+    margin-top: 2rem;
   }
 </style>
 <template>
@@ -121,7 +119,8 @@
         </div>
       </div>
     </div>
-    <div class="logout" @click="logOutConfirm">退出</div>
+    <!--<div class="logout" @click="logOutConfirm">退出</div>-->
+    <Button long class="logout" type="error" @click="logOutConfirm">退出</Button>
     <Vfooter></Vfooter>
   </div>
 </template>
