@@ -152,6 +152,12 @@
       }
     }
   }
+  /*往期图片*/
+  .pastImg{
+    width: 10rem;
+    height: 10rem;
+    object-fit: cover;
+  }
   /*场馆模态*/
   .select-shop{
     max-height: 60vh;
@@ -299,6 +305,11 @@
     <div class="previous-img">
       <div class="hd">
         <span>往期图片</span>
+        <Row>
+          <Col span="8" v-for="(pic,index) in pastList" :key="index">
+          <img :src="headerUrl+pic" alt="" ref="pastOne" class="pastImg">
+          </Col>
+        </Row>
       </div>
     </div>
     <p></p>
@@ -364,6 +375,9 @@
           pageSize:5
         },
         /*图片读取地址*/
+        headerUrl:'',
+        /*往期图片列表*/
+        pastList:[]
       }
     },
     watch:{
@@ -383,6 +397,7 @@
           }
         })
         self.load();
+        self.getPastPicList()
       },
       skipToPage(name,id,mealFlag){
         if(id){
@@ -443,6 +458,7 @@
         /*重置加载按钮*/
         self.loadMoreFlag = true
         this.load()
+        self.getPastPicList()
       },
       /*加载更多*/
       load(action){
@@ -465,6 +481,15 @@
         this.loadFlag=true
         this.page.pageSize = this.page.pageSize + 5 ;
         this.load(action)
+      },
+      getPastPicList(stadiumId){
+          let self =this;
+          self.$http.get('/groupClass/pastGroupClass?stadiumId='+localStorage.getItem('stadiumId')).then(function (res) {
+            if(res.result==1){
+                console.log(res)
+                self.pastList = res.data;
+            }
+          })
       }
     },
     created:function () {
