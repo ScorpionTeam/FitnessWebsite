@@ -67,19 +67,9 @@
     <div class="banner">
       <Carousel  v-model="currentPic" autoplay
                  :height="280" arrow="never">
-        <Carousel-item>
+        <Carousel-item v-for="scroll in scrollList" :key="scroll.id">
           <div class="pic">
-            <img src="http://zoneke-img.b0.upaiyun.com/78405808ce6060961a05cdd660d6d08d.jpg!120x120" alt="">
-          </div>
-        </Carousel-item>
-        <Carousel-item>
-          <div class="pic">
-            <img src="http://zoneke-img.b0.upaiyun.com/78405808ce6060961a05cdd660d6d08d.jpg!120x120" alt="">
-          </div>
-        </Carousel-item>
-        <Carousel-item>
-          <div class="pic">
-            <img src="http://zoneke-img.b0.upaiyun.com/78405808ce6060961a05cdd660d6d08d.jpg!120x120" alt="">
+            <img :src="headerUrl+scroll.url" alt="">
           </div>
         </Carousel-item>
       </Carousel>
@@ -148,8 +138,12 @@
           }
         },
         coachDetail:{
-            grade:{}
-        }
+          grade:{}
+        },
+        /*轮播图列表*/
+        scrollList:[],
+        /*图片静态地址前缀*/
+        headerUrl:'http://101.200.48.138/'
       }
     },
     methods:{
@@ -159,10 +153,11 @@
       /*获取课程详情*/
       getCourseDetail(){
         let self = this;
-        self.$http.get('/groupClass/classInfoByClassId?classId='+this.$route.params.id).then(function (res) {
+        self.$http.get('/groupClass/classInfo?id='+this.$route.params.id).then(function (res) {
           if(res.result==1){
             self.courseDetail = res.data
             self.getCoachDetail(res.data.coachId)
+            self.scrollList = res.data.imgList
           }
 
         })

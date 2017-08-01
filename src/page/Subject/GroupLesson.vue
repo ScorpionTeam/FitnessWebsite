@@ -253,7 +253,7 @@
           <div class="item" v-for="group in groupList">
             <div class="media">
               <div class="fl">
-                <img src="http://zoneke-img.b0.upaiyun.com/78405808ce6060961a05cdd660d6d08d.jpg!120x120" alt="课程图片">
+                <img :src="headerUrl+group.mainImgUrl" alt="课程图片">
               </div>
               <div class="rt">
                 <div class="row">
@@ -340,6 +340,7 @@
   import  {Toast} from 'mint-ui'
   import Appoint  from '../../components/AppointLesson.vue'
   import getDateFormatter from '../../common/formatterDate'
+  import {headerUrl} from '../../common/WebApi'
   export default{
     data(){
       return{
@@ -361,7 +362,8 @@
         /*活动分页对象*/
         page:{
           pageSize:5
-        }
+        },
+        /*图片读取地址*/
       }
     },
     watch:{
@@ -448,6 +450,7 @@
         let url = '/groupClass/classListByStadium?pageNo=1&pageSize='+this.page.pageSize+'&stadiumId='+localStorage.getItem('stadiumId')+
           '&date='+this.selectedTime
         self.$http.get(url).then(function (res) {
+            console.log(res)
           if(res.result==1){
             self.groupList = res.data
             self.loadFlag=false
@@ -467,6 +470,7 @@
     created:function () {
       this.getTimeList();
       this.init()
+      this.headerUrl = headerUrl
     },
     components:{
       'Vheader':Vhedaer,
