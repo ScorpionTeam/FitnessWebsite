@@ -4,7 +4,8 @@ import Index from '../components/Index.vue'
 import Introduce from '../page/Stadium/Introduce.vue'
 import Schedule from '../page/Schedule.vue'
 import  Activitys from'../page/Activity/Activitys.vue'
-import  Question from '../page/Question.vue'
+import  Question from '../page/Question/Question.vue'
+import  MyQuestion from '../page/Question/MyQuestion.vue'
 import Login from '../components/Login.vue'
 import Register from '../page/Register.vue'
 import Profile from '../page/person/Profile.vue'
@@ -62,6 +63,11 @@ export default new Router({
       path:'/question',
       name:'问答',
       component:Question
+    },
+    {
+      path:'/my-question',
+      name:'我的问答',
+      component:MyQuestion
     },
     {
       path:'/login',

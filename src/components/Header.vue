@@ -6,7 +6,7 @@
       </a>
     </div>
     <div class="rg" v-if="myAnswer">
-      <a class="btn">我的问答</a>
+      <a class="btn" @click="skipToPage('my-question')">我的问答</a>
     </div>
     <div class="mid">
       {{title}}
@@ -23,27 +23,31 @@
     },
     props:['stadiumName'],
     methods:{
+      /*跳转*/
+      skipToPage(name){
+        this.$router.push(name)
+      },
       back(){
         /*this.$router.push('/index')*/
         this.$router.go(-1);
       },
       init(){
-          let  self = this;
-          if(this.$route.name=='场馆介绍'){
-            self.$http.get('stadium/stadiumInfo?id='+localStorage.getItem('stadiumId')).then(function (res) {
-                self.title =res.data.name
-            })
-          }else {
-            this.title= this.$route.name
-          }
+        let  self = this;
+        if(this.$route.name=='场馆介绍'){
+          self.$http.get('stadium/stadiumInfo?id='+localStorage.getItem('stadiumId')).then(function (res) {
+            self.title =res.data.name
+          })
+        }else {
+          this.title= this.$route.name
+        }
       }
     },
     created:function () {
-       /* console.log(this.stadiumName);
-        this.title = this.$route.name=='场馆介绍'?this.stadiumName:this.$route.name*/
-       this.init()
-        /*判断是否展示我的问答按钮*/
-        this.$route.name=='问答'?this.myAnswer=true:this.myAnswer=false;
+      /* console.log(this.stadiumName);
+       this.title = this.$route.name=='场馆介绍'?this.stadiumName:this.$route.name*/
+      this.init()
+      /*判断是否展示我的问答按钮*/
+      this.$route.name=='问答'?this.myAnswer=true:this.myAnswer=false;
     }
   }
 </script>
