@@ -1,5 +1,6 @@
 <style scoped rel='stylesheet/scss' lang='scss'>
   .calendar{
+    background: #fff;
     .hd{
       padding: 2rem;
       background-color: #f8f8f8;

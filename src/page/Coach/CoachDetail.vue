@@ -146,8 +146,6 @@
             <Tag type="border" class="tag" v-for="(good,index) in coachDetail.goodAt" :key="index">{{good}}</Tag>
             <Tag type="border" class="tag">好好好</Tag>
             <Tag type="border" class="tag">好好阿萨德啊啊所多好</Tag>
-            <Tag type="border" class="tag">好好好</Tag>
-            <Tag  type="border" class="tag">阿萨德啊啊大</Tag>
           </div>
         </div>
         <div class="panel">

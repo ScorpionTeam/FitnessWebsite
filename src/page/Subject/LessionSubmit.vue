@@ -342,7 +342,7 @@
         data.mealId = mealId
         data.type = '1'
         console.log(data)
-        let url = '/mealClass/apply?memberId='+data.memberId+'&classId='+data.classId+'&mealId='+data.mealId+'&type=1'
+        let url = '/mealClass/apply?memberId='+data.memberId+'&classId='+data.classId+'&mealId='+data.mealId
          self.$http.post(url).then(function (res) {
          if(res.result==1){
          self.$messagebox.alert('预约成功')
