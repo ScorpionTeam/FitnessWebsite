@@ -12,6 +12,7 @@ import Profile from '../page/person/Profile.vue'
 import PrivateLesson from '../page/Subject/PrivateLesson.vue'
 import CourseDetail from '../page/Subject/CourseDetail.vue'
 import PrivateCourseSubmit from '../page/Subject/PrivateCourseSubmit.vue'
+import PrivateDetail from '../page/Subject/PrivateDetail.vue'
 import LessionSubmit from '../page/Subject/LessionSubmit.vue'
 import GroupLesson from '../page/Subject/GroupLesson.vue'
 import CoachDetail from '../page/Coach/CoachDetail.vue'
@@ -113,6 +114,11 @@ export default new Router({
       path:'/course-detail/:id',
       name:'课程详情',
       component:CourseDetail
+    },
+    {
+      path:'/private-detail/:id',
+      name:'私课详情',
+      component:PrivateDetail
     },
     {
       path:'/coach-detail/:id',

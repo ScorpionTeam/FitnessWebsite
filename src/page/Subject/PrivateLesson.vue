@@ -148,6 +148,68 @@
     text-align: center;
   }
   .coach-list{
+    .coachGallery{
+      position: relative;
+      height: 15rem;
+      overflow: hidden;
+      .list{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 20rem;
+        height: 11rem;
+        margin: -5.5rem 0 0 -10rem;
+        -webkit-transform-style: preserve-3d;
+        transform-style: preserve-3d;
+        -webkit-perspective: 200px;
+        perspective: 200px;
+        .item-scroll{
+          position: absolute;
+          width: 20rem;
+          height: 11rem;
+          padding: 1rem 1.5rem;
+          box-shadow: 0 0 3px rgba(0,0,0,0.2);
+          background-color: #fff;
+          border-radius: .2rem;
+          -webkit-transition: transform .6s ease;
+          transition: transform .6s ease;
+          .lf{
+            width: 5rem;
+            height: 5rem;
+            float: left;
+            border: 1px solid #ddd;
+            border-radius: 50%;
+            img{
+              width: 5rem;
+              height: 100%;
+              border-radius:50%;
+              object-fit: cover;
+            }
+          }
+          .rt{
+            margin-left: 5.8rem;
+            .name{
+              text-align: left;
+              padding: 1rem 0 .5rem;
+            }
+            .star{
+              width: 100%;
+              text-align: left;
+            }
+            .val{
+              margin-left: .5rem;
+              color: #fea500;
+              font-size: 1.2rem;
+            }
+          }
+          .tag{
+            height: 4rem;
+            overflow: hidden;
+            font-size: 0;
+          }
+        }
+      }
+    }
     .hd{
       padding: 1.2rem 2rem;
       color:#00bfbf !important;
@@ -192,6 +254,54 @@
         }
         img{
           border-color: #00bfbf;
+        }
+      }
+    }
+  }
+  /*场馆模态*/
+  .select-shop{
+    max-height: 60vh;
+    margin: 0;
+    overflow-y: auto;
+    .item{
+      margin: 0 2.2rem;
+      .link{
+        display: table;
+        width: 100%;
+        padding: 2.2rem 0;
+        line-height: 0;
+        border-bottom: 1px solid #d1d1d1;
+        .pic{
+          display: table-cell;
+          vertical-align: middle;
+          img{
+            width:4.4rem;
+            height: 4.4rem;
+          }
+        }
+        .txt{
+          display: table-cell;
+          width: 100%;
+          padding: 0 1rem;
+          line-height: 1.2;
+          vertical-align: middle;
+          h4{
+            font-size: 1.5rem;
+            font-weight: normal;
+          }
+          p{
+            color: #999;
+            font-size: 1.3rem;
+          }
+        }
+        .ico{
+          display: table-cell;
+          vertical-align: middle;
+          .i-arrow-right{
+            width: .9rem;
+            height: 1.6rem;
+            background-image: url(../../assets/i-arrow-right.png);
+          }
         }
       }
     }
@@ -248,14 +358,63 @@
       </div>
     </div>
     <div class="coach-list">
-      <div class="hd">全部教练</div>
-      <li class="item " v-for="(coach,index) in coachList" @click="selectCoach(coach.id,index)">
-        <div :class="{avatar:true,coach:true,active:coach.flag}">
-          <img src="http://zoneke-img.b0.upaiyun.com/ddf4ad62cc61b79d643b992827ab35be.JPG!120x120" alt="">
-        </div>
-        <div class="name">{{coach.name}}</div>
-        <Rate disabled :value="3"></Rate>
-      </li>
+      <div class="hd">全部教练{{'（'+coachList.length+'）'}}</div>
+      <div class="coachGallery">
+        <ul class="list" @touchend="slideMove" @touchstart="slideStart">
+          <li class="item-scroll" style="transform: translate3d(0px, 0px, 36px);">
+            <div class="info">
+              <div class="lf">
+                <img src="../../assets/avatar.png" alt="">
+              </div>
+              <div class="rt">
+                <div class="name">流浪</div>
+                <Rate disabled :value="2" class="star"></Rate>
+                <p class="val">5.0</p>
+              </div>
+            </div>
+            <div class="tags">
+              <Tag type="border">标签三</Tag>
+            </div>
+          </li>
+          <li class="item-scroll" style="transform: translate3d(200px, 0px, 0px);">
+            <div class="info">
+              <div class="lf">
+                <img src="../../assets/avatar.png" alt="">
+              </div>
+              <div class="rt">
+                <div class="name">流浪</div>
+                <Rate disabled :value="2" class="star"></Rate>
+              </div>
+            </div>
+            <div class="tags">
+              <Tag type="border">标签三</Tag>
+            </div>
+          </li>
+          <li class="item-scroll" style="transform: translate3d(400px, 0px, 0px);">
+            <div class="info">
+              <div class="lf">
+                <img src="../../assets/avatar.png" alt="">
+              </div>
+              <div class="rt">
+                <div class="name">流浪</div>
+                <Rate disabled :value="2" class="star"></Rate>
+              </div>
+            </div>
+            <div class="tags">
+              <Tag type="border">标签三</Tag>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="allCoach">
+        <li class="item " v-for="(coach,index) in coachList" @click="selectCoach(coach.id,index)">
+          <div :class="{avatar:true,coach:true,active:coach.flag}">
+            <img src="http://zoneke-img.b0.upaiyun.com/ddf4ad62cc61b79d643b992827ab35be.JPG!120x120" alt="">
+          </div>
+          <div class="name">{{coach.name}}</div>
+          <Rate disabled :value="3"></Rate>
+        </li>
+      </div>
     </div>
     <div class="shcedule-list">
       <div class="hd">
@@ -264,16 +423,16 @@
           <div v-for="(item,index) in subjectList" class="item">
             <div class="media">
               <div class="fl">
-                <img src="http://zoneke-img.b0.upaiyun.com/78405808ce6060961a05cdd660d6d08d.jpg!120x120" alt="课程图片">
+                <img :src="headerUrl+item.mainImgUrl" alt="课程图片">
               </div>
               <div class="rt">
                 <div class="row">
-                  <a class="fr link" @click="skipToPage('course-detail')">课程详情</a>
-                  <div class="h3">一对一私教课</div>
+                  <a class="fr link" @click="skipToPage('私课详情',item.id)">课程详情</a>
+                  <div class="h3">{{item.name}}</div>
                 </div>
                 <div class="time">
                   <i class="i-time icon"></i>
-                  60min
+                  {{item.classTime}}min
                 </div>
                 <Appoint @click.native="show(index)"></Appoint>
               </div>
@@ -281,17 +440,8 @@
             <div class="cont" style="display: none">
               <div class="time-list">
                 <Radio-group class='time-group' v-model="appointTime" type="button">
-                  <div class="d">
-                    <Radio label="北京">08:00</Radio>
-                  </div>
-                  <div class="d">
-                    <Radio label="2">09:00</Radio>
-                  </div >
-                  <div class="d">
-                    <Radio label="1">10:00</Radio>
-                  </div>
-                  <div class="d">
-                    <Radio label="3">11:00</Radio>
+                  <div class="d" v-for="(time,index) in item.privateClassTimeList" :key="index">
+                    <Radio :label="time">time</Radio>
                   </div>
                 </Radio-group>
               </div>
@@ -307,7 +457,7 @@
               </div>
             </div>
           </div>
-          <div class="loadingMore" @click="loadMore">加载更多</div>
+          <div class="loadingMore" @click="loadMore" v-if="loadMoreFlag">加载更多</div>
           <Spin fix style="position: relative" v-if="loadFlag">
             <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
             <div>Loading</div>
@@ -356,6 +506,7 @@
   import getDateFormatter from '../../common/formatterDate'
   import classObj from '../../common/classOperate'
   import { InfiniteScroll } from 'mint-ui';
+  import {headerUrl}from'../../common/WebApi'
   export default{
     data(){
       return{
@@ -378,7 +529,15 @@
         selectFlag:false,
         /*课程列表*/
         loadFlag:false,
-        subjectList:[1,2,1,21,21],
+        loadMoreFlag:true,
+        subjectList:[],
+        pageSize:5,
+        /*图片静态地址*/
+        headerUrl:'',
+        /*slide时间*/
+        start:0,
+        index:0,
+        transform:[36,200,400,600]
       }
     },
     methods:{
@@ -393,8 +552,13 @@
           /*获取当前教练列表*/
           self.getPrivateCoach()
       },
-      skipToPage(name){
-        this.$router.push(name)
+      skipToPage(name,id,mealFlag){
+        console.log(name)
+        if(id==undefined){
+          this.$router.push(name)
+        }else {
+          this.$router.push({name:name,params:{id:id}})
+        }
       },
       /*显示时间点*/
       show(index){
@@ -462,22 +626,79 @@
         }
         /*获取课程*/
         localStorage.setItem('coachId',id)
+        this.getSubjects(id)
       },
       /*加载更多课程*/
       loadMore(){
         this.loadFlag=true;
         let self = this;
-        console.log(self.selectedTime)
+        self.pageSize+=5
+        self.getSubjects(localStorage.getItem('coachId'))
       },
       /*获取课程*/
       getSubjects(id){
+        let url= '/privateClass/listByCoachId?pageNo=1&pageSize=' +
+          this.pageSize+'&coachId='+id
+        let self = this
+        self.$http.get(url).then(function (res) {
+          if(res.result==1){
+            if(res.data.length==self.subjectList.length){
+              self.$toast('没有更多啦')
+              self.loadMoreFlag = false
+              self.loadFlag = false
+            }else {
+              self.loadFlag = false
+              self.subjectList = res.data
+            }
+          }else {
+            self.$toast(res.error.message)
+          }
+        })
+      },
+      /*教练列表滑动*/
+      slideStart(e){
+        this.start = e.touches[0].pageX;
+      },
+      slideMove(e){
+        if(e.changedTouches[0].pageX-this.start>0){
+          console.log('向右')
+          /*判断是否在最左边*/
+          if(this.index==5){
 
+          }else {
+            let dom = document.getElementsByClassName('item-scroll')
+            this.index= this.index+1
+            for(let i = 0;i<dom.length;i++){
+                if(i==this.index){
+                  dom[i].style.transform = 'translate3d(0,0,36px)'
+                }else{
+                  dom[i].style.transform = 'translate3d('+((i-this.index)*200)+'px,0,0)'
+                }
+            }
+          }
+        }else{
+          console.log('向左')
+          if(this.index==0){
+
+          }else {
+            let dom = document.getElementsByClassName('item-scroll')
+            this.index= this.index-1
+            for(let i = 0;i<dom.length;i++){
+              if(i==this.index){
+                dom[i].style.transform = 'translate3d(0,0,36px)'
+              }else{
+                dom[i].style.transform = 'translate3d('+((i-this.index)*200)+'px,0,0)'
+              }
+            }
+          }
+        }
       }
     },
     mounted:function(){
       this.init();
     },
     created:function () {
+      this.headerUrl = headerUrl
       this.getTimeList();
     },
     components:{
