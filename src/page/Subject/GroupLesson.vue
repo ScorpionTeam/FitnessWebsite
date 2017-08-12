@@ -286,10 +286,10 @@
             <div class="btns">
               <Row>
                 <Col span="11">
-                <Button class="btn-appoint" @click="skipToPage('课程预约提交',group.id,2)">预约</Button>
+                <Button class="btn-appoint" @click="skipToPage('团课预约提交',group.id,2)">预约</Button>
                 </Col>
                 <Col span="12" offset="1">
-                <Button class="btn-appoint food" @click="skipToPage('课程预约提交',group.id,1)">预约并约定营养餐</Button>
+                <Button class="btn-appoint food" @click="skipToPage('团课预约提交',group.id,1)">预约并约定营养餐</Button>
                 </Col>
               </Row>
             </div>

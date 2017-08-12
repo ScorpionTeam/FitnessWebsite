@@ -444,18 +444,18 @@
             <div class="cont" style="display: none">
               <div class="time-list">
                 <Radio-group class='time-group' v-model="appointTime" type="button">
-                  <div class="d" v-for="(time,index) in item.privateClassTimeList" :key="index">
-                    <Radio :label="time.id" v-if="time.status=='0'?true:false">{{time.times}}</Radio>
+                  <div class="d" v-for="(time,index) in item.privateClassTimeList" :key="index" v-if="time.status=='0'?true:false">
+                    <Radio :label="time.id" >{{time.times}}</Radio>
                   </div>
                 </Radio-group>
               </div>
               <div class="btns">
                 <Row>
                   <Col span="11">
-                  <Button class="btn-appoint" @click="skipToPage('lession-submit')">预约</Button>
+                  <Button class="btn-appoint" @click="skipToPage('私课预约提交',item.id,appointTime,'0')">预约</Button>
                   </Col>
                   <Col span="12" offset="1">
-                  <Button class="btn-appoint food" @click="skipToPage('lession-submit')">预约并约定营养餐</Button>
+                  <Button class="btn-appoint food" @click="skipToPage('私课预约提交',item.id,appointTime,'1')">预约并约定营养餐</Button>
                   </Col>
                 </Row>
               </div>
@@ -562,9 +562,10 @@
           self.getPrivateCoach()
       },
       skipToPage(name,id,time,mealFlag){
-        console.log(name)
         if(id==undefined){
           this.$router.push(name)
+        } else if(mealFlag!=''&&mealFlag!=undefined){
+          this.$router.push({name:name,params:{id:id,time:time,meal:mealFlag}})
         }else {
           this.$router.push({name:name,params:{id:id}})
         }

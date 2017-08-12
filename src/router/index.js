@@ -127,12 +127,12 @@ export default new Router({
     },
     {
       path:'/private-lession-submit/:id/:time/:meal',
-      name:'课程预约（加餐）提交',
+      name:'私课预约提交',
       component:PrivateCourseSubmit
     },
     {
       path:'/lession-submit/:id/:mealFlag',
-      name:'课程预约提交',
+      name:'团课预约提交',
       component:LessionSubmit
     }
   ]
