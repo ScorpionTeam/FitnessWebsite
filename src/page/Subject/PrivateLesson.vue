@@ -565,6 +565,10 @@
         if(id==undefined){
           this.$router.push(name)
         } else if(mealFlag!=''&&mealFlag!=undefined){
+          if(time==''||time==undefined){
+            this.$toast('请选择时间点')
+            return
+          }
           this.$router.push({name:name,params:{id:id,time:time,meal:mealFlag}})
         }else {
           this.$router.push({name:name,params:{id:id}})
@@ -768,7 +772,7 @@
       },
       /*时间变化*/
       changeTime(){
-          this.getSubjects(localStorage.getItem('coachId'))
+        this.getSubjects(localStorage.getItem('coachId'))
       }
     },
     mounted:function(){
