@@ -120,7 +120,7 @@
       <div class="hd">
         <div class="inner">
           <div class="avatar">
-            <img src="../../assets/1.jpg" alt="">
+            <img :src="headerUrl+coachDetail.coachImgUrl" alt="">
           </div>
           <div class="name">{{coachDetail.name}}</div>
           <div class="describe">{{coachDetail.description}}</div>
@@ -202,13 +202,15 @@
 <script>
   import Vhedaer from '../../components/Header.vue'
   import  Vfooter from'../../components/Footer.vue'
+  import {headerUrl} from '../../common/WebApi'
   export default{
     data(){
       return{
         valueDisabled:5,
         coachDetail:{
             grade:{}
-        }
+        },
+        headerUrl:''
       }
     },
     methods:{
@@ -227,6 +229,7 @@
     },
     created:function () {
       this.init()
+      this.headerUrl = headerUrl;
     },
     components:{
       'Vheader':Vhedaer,

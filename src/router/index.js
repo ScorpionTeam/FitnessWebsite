@@ -126,7 +126,7 @@ export default new Router({
       component:CoachDetail
     },
     {
-      path:'/private-lession-submit/:id',
+      path:'/private-lession-submit/:id/:time/:meal',
       name:'课程预约（加餐）提交',
       component:PrivateCourseSubmit
     },

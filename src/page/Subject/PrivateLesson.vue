@@ -202,7 +202,7 @@
               font-size: 1.2rem;
             }
           }
-          .tag{
+          .tags{
             height: 4rem;
             overflow: hidden;
             font-size: 0;
@@ -328,7 +328,7 @@
     <Vheader></Vheader>
     <div class="header pt">
       <mt-navbar v-model="selectedTime">
-        <mt-tab-item v-for="time in timeList" :key="time.value" :id="time.value">
+        <mt-tab-item v-for="time in timeList" :key="time.value" :id="time.value" @click.native="changeTime">
           <p class="date">{{time.label}}</p>
         </mt-tab-item>
         <!-- <mt-tab-item id="1">
@@ -358,62 +358,66 @@
       </div>
     </div>
     <div class="coach-list">
-      <div class="hd">全部教练{{'（'+coachList.length+'）'}}</div>
-      <div class="coachGallery">
-        <ul class="list" @touchend="slideMove" @touchstart="slideStart">
-          <li class="item-scroll" style="transform: translate3d(0px, 0px, 36px);">
+      <div class="hd" @click="coachListTransform">全部教练{{'（'+coachList.length+'）'}}</div>
+      <div class="coachGallery" v-show="!allCoachFlag">
+        <ul class="list" @touchend="slideMove($event)" @touchstart="slideStart">
+          <li class="item-scroll" v-for='(slide,index) in slideList' :style="slideClassList[index]" :key='slide.id' @click="coachDetail(slide.id)">
             <div class="info">
               <div class="lf">
-                <img src="../../assets/avatar.png" alt="">
+                <img :src="headerUrl+slide.coachImgUrl" alt="">
               </div>
               <div class="rt">
-                <div class="name">流浪</div>
-                <Rate disabled :value="2" class="star"></Rate>
-                <p class="val">5.0</p>
+                <div class="name">{{slide.name}}</div>
+                <Rate disabled :value="slide.grade.coachScore" class="star"></Rate>
               </div>
-            </div>
-            <div class="tags">
-              <Tag type="border">标签三</Tag>
+              <div class="tags">
+                <Tag type="border" v-for="(tag,index) in slide.impressionList" :key="index">{{tag}}</Tag>
+              </div>
             </div>
           </li>
-          <li class="item-scroll" style="transform: translate3d(200px, 0px, 0px);">
-            <div class="info">
-              <div class="lf">
-                <img src="../../assets/avatar.png" alt="">
-              </div>
-              <div class="rt">
-                <div class="name">流浪</div>
-                <Rate disabled :value="2" class="star"></Rate>
-              </div>
-            </div>
-            <div class="tags">
-              <Tag type="border">标签三</Tag>
-            </div>
-          </li>
-          <li class="item-scroll" style="transform: translate3d(400px, 0px, 0px);">
-            <div class="info">
-              <div class="lf">
-                <img src="../../assets/avatar.png" alt="">
-              </div>
-              <div class="rt">
-                <div class="name">流浪</div>
-                <Rate disabled :value="2" class="star"></Rate>
-              </div>
-            </div>
-            <div class="tags">
-              <Tag type="border">标签三</Tag>
-            </div>
-          </li>
+          <!-- <li class="item-scroll" style="transform: translate3d(200px, 0px, 0px);">
+             <div class="info">
+               <div class="lf">
+                 <img src="../../assets/avatar.png" alt="">
+               </div>
+               <div class="rt">
+                 <div class="name">流浪</div>
+                 <Rate disabled :value="2" class="star"></Rate>
+               </div>
+             </div>
+             <div class="tags">
+               <Tag type="border">标签三</Tag>
+             </div>
+           </li>
+           <li class="item-scroll" style="transform: translate3d(400px, 0px, 0px);">
+             <div class="info">
+               <div class="lf">
+                 <img src="../../assets/avatar.png" alt="">
+               </div>
+               <div class="rt">
+                 <div class="name">流浪</div>
+                 <Rate disabled :value="2" class="star"></Rate>
+               </div>
+             </div>
+             <div class="tags">
+               <Tag type="border">标签三</Tag>
+             </div>
+           </li>-->
         </ul>
       </div>
-      <div class="allCoach">
-        <li class="item " v-for="(coach,index) in coachList" @click="selectCoach(coach.id,index)">
-          <div :class="{avatar:true,coach:true,active:coach.flag}">
-            <img src="http://zoneke-img.b0.upaiyun.com/ddf4ad62cc61b79d643b992827ab35be.JPG!120x120" alt="">
-          </div>
-          <div class="name">{{coach.name}}</div>
-          <Rate disabled :value="3"></Rate>
-        </li>
+      <div class="allCoach" v-show="allCoachFlag">
+        <div style="overflow: hidden">
+          <li class="item " v-for="(coach,index) in coachList" @click="selectCoach(coach.id,index)">
+            <div :class="{avatar:true,coach:true,active:coach.flag}">
+              <img :src="headerUrl+coach.coachImgUrl" alt="">
+            </div>
+            <div class="name">{{coach.name}}</div>
+            <Rate disabled :value="coach.grade.coachScore"></Rate>
+          </li>
+        </div>
+        <div style="text-align: center;">
+          <Button @click="coachListTransform">收起教练列表</Button>
+        </div>
       </div>
     </div>
     <div class="shcedule-list">
@@ -441,7 +445,7 @@
               <div class="time-list">
                 <Radio-group class='time-group' v-model="appointTime" type="button">
                   <div class="d" v-for="(time,index) in item.privateClassTimeList" :key="index">
-                    <Radio :label="time">time</Radio>
+                    <Radio :label="time.id" v-if="time.status=='0'?true:false">{{time.times}}</Radio>
                   </div>
                 </Radio-group>
               </div>
@@ -526,6 +530,7 @@
         stadiumList:[],
         /*教练列表*/
         coachList:[],
+        slideList:[],//滑动列表
         selectFlag:false,
         /*课程列表*/
         loadFlag:false,
@@ -536,8 +541,12 @@
         headerUrl:'',
         /*slide时间*/
         start:0,
-        index:0,
-        transform:[36,200,400,600]
+        index:0,//滑动图片序号
+        transform:[36,200,400,600],
+        slideClassList:['transform: translate3d(0px, 0px,36px)','transform: translate3d(200px, 0px,0px)','transform: translate3d(400px, 0px,0px)','transform: translate3d(600px, 0px,0px)','transform: translate3d(800px, 0px,0px)',],
+        /*所有教练显示标志*/
+        allCoachFlag:false,
+        selectCoachIndex:0//选中教练序号
       }
     },
     methods:{
@@ -552,7 +561,7 @@
           /*获取当前教练列表*/
           self.getPrivateCoach()
       },
-      skipToPage(name,id,mealFlag){
+      skipToPage(name,id,time,mealFlag){
         console.log(name)
         if(id==undefined){
           this.$router.push(name)
@@ -603,6 +612,8 @@
         this.stadiumFlag=!this.stadiumFlag;
         localStorage.setItem('stadiumId',id)
         this.currentStadium = name;
+        /*重新加载教练列表*/
+        this.getPrivateCoach()
       },
       /*获取私教*/
       getPrivateCoach(){
@@ -611,15 +622,29 @@
           console.log(res)
           if(res.result==1){
             self.coachList = res.data
+            /*滑动列表*/
+            self.slideList=[]
+            for(let i =0;i<res.data.length;i++){
+              if(i>5){
+                return
+              }
+              self.slideList.push(res.data[i])
+            }
             /*初始化样式*/
             for(let i = 0;i<res.data.length;i++){
               self.coachList[i].flag=i==0?true:false
             }
             self.selectCoach(res.data[0].id,0)
+          }else {
+            self.$toast(res.error.message)
+            self.coachList = []
+            self.slideList=[]
           }
         })
       },
       selectCoach(id,index){
+        /*标记所选教练序号*/
+        this.index = index
         let el = document.getElementsByClassName('coach')
         for(let i =0;i<el.length;i++){
           i==index? classObj.addClass('active',el[index]):classObj.removerClass('active',el[i])
@@ -627,6 +652,9 @@
         /*获取课程*/
         localStorage.setItem('coachId',id)
         this.getSubjects(id)
+      },
+      coachDetail(id){
+        this.$router.push({name:'教练详情',params:{id:id}})
       },
       /*加载更多课程*/
       loadMore(){
@@ -638,10 +666,18 @@
       /*获取课程*/
       getSubjects(id){
         let url= '/privateClass/listByCoachId?pageNo=1&pageSize=' +
-          this.pageSize+'&coachId='+id
+          this.pageSize+'&coachId='+id+'&date='+this.selectedTime
         let self = this
         self.$http.get(url).then(function (res) {
+          console.log(res)
           if(res.result==1){
+            if(res.total==0){
+              self.$toast('查无结果')
+              self.loadMoreFlag = false
+              self.loadFlag = false
+              self.subjectList = []
+              return
+            }
             if(res.data.length==self.subjectList.length){
               self.$toast('没有更多啦')
               self.loadMoreFlag = false
@@ -652,6 +688,7 @@
             }
           }else {
             self.$toast(res.error.message)
+            self.subjectList = []
           }
         })
       },
@@ -660,29 +697,40 @@
         this.start = e.touches[0].pageX;
       },
       slideMove(e){
+        /*根据index判断当前教练id*/
         if(e.changedTouches[0].pageX-this.start>0){
           console.log('向右')
           /*判断是否在最左边*/
-          if(this.index==5){
+          if(this.index==0){
+            console.log('最左边了')
+          }else {
+            let dom = document.getElementsByClassName('item-scroll')
+            /*slideList里的序号*/
+            this.index= this.index-1
+            /*获取该教练课程*/
+            let coachId = this.slideList[this.index].id
+            this.getSubjects(coachId)
+            for(let i = 0;i<dom.length;i++){
+              if(i==this.index){
+                dom[i].style.transform = 'translate3d(0,0,36px)'
+              }else{
+                dom[i].style.transform = 'translate3d('+((i-this.index)*200)+'px,0,0)'
+              }
+            }
 
+          }
+        }else if(e.changedTouches[0].pageX-this.start==0){
+          console.log('不动')
+        }else{
+          console.log('向左')
+          if(this.index==this.slideList.length-1){
+            console.log('最右边了')
           }else {
             let dom = document.getElementsByClassName('item-scroll')
             this.index= this.index+1
-            for(let i = 0;i<dom.length;i++){
-                if(i==this.index){
-                  dom[i].style.transform = 'translate3d(0,0,36px)'
-                }else{
-                  dom[i].style.transform = 'translate3d('+((i-this.index)*200)+'px,0,0)'
-                }
-            }
-          }
-        }else{
-          console.log('向左')
-          if(this.index==0){
-
-          }else {
-            let dom = document.getElementsByClassName('item-scroll')
-            this.index= this.index-1
+            /*获取该教练课程*/
+            let coachId = this.slideList[this.index].id
+            this.getSubjects(coachId)
             for(let i = 0;i<dom.length;i++){
               if(i==this.index){
                 dom[i].style.transform = 'translate3d(0,0,36px)'
@@ -692,6 +740,34 @@
             }
           }
         }
+      },
+      /*教练列表,滑动转换*/
+      coachListTransform(){
+        this.allCoachFlag = !this.allCoachFlag;
+        if(!this.allCoachFlag){
+          /*slide样式*/
+          let dom = document.getElementsByClassName('item-scroll')
+          this.$nextTick(function(){
+            for(let i = 0;i<dom.length;i++){
+              if(i==this.index){
+                dom[i].style.transform = 'translate3d(0,0,36px)'
+              }else{
+                dom[i].style.transform = 'translate3d('+((i-this.index)*200)+'px,0,0)'
+              }
+            }
+          })
+        }else {
+          /*list样式*/
+          let el = document.getElementsByClassName('coach')
+          let index = this.index
+          for(let i =0;i<el.length;i++){
+            i==index? classObj.addClass('active',el[index]):classObj.removerClass('active',el[i])
+          }
+        }
+      },
+      /*时间变化*/
+      changeTime(){
+          this.getSubjects(localStorage.getItem('coachId'))
       }
     },
     mounted:function(){
