@@ -456,9 +456,9 @@
         this.currentStadium = name;
         /*换场馆后重新加载列表*/
         /*重置加载按钮*/
-        self.loadMoreFlag = true
+        this.loadMoreFlag = true
         this.load()
-        self.getPastPicList()
+        this.getPastPicList(id)
       },
       /*加载更多*/
       load(action){
