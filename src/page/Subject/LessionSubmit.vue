@@ -161,7 +161,7 @@
     <div class="hd">
       <div class="media">
         <div class="fl">
-          <img src="http://zoneke-img.b0.upaiyun.com/78405808ce6060961a05cdd660d6d08d.jpg!120x120" alt="课程图片">
+          <img :src="headerUrl+courseDetail.mainImgUrl" alt="课程图片">
         </div>
         <div class="rt">
           <div class="row">
@@ -188,7 +188,7 @@
         <div class="rt">
           <div class="coach-info">
             <div class="pic">
-              <img src="../../assets/1.jpg" alt="">
+              <img :src="headerUrl+coachDetail.coachImgUrl" alt="">
             </div>
             <div class="info">
               <div class="name">{{coachDetail.name}}</div>
@@ -245,6 +245,7 @@
   import Vhedaer from '../../components/Header.vue'
   import  Vfooter from'../../components/Footer.vue'
   import MessageBox from '../../common/component'
+  import {headerUrl} from '../../common/WebApi'
   export default{
     data(){
       return{
@@ -257,7 +258,9 @@
         /*营养餐*/
         mealFlag:false,
         mealList:[],
-        mealId:''
+        mealId:'',
+        /*图片地址*/
+        headerUrl:''
       }
     },
     methods:{
@@ -279,6 +282,7 @@
         self.$http.get('/groupClass/classInfoByClassId?classId='+this.$route.params.id).then(function (res) {
           if(res.result==1){
             self.courseDetail = res.data
+            console.log(res.data)
             self.getCoachDetail(res.data.coachId)
           }
 
@@ -354,6 +358,7 @@
     },
     created:function () {
       this.init()
+      this.headerUrl =headerUrl
     },
     components:{
       'Vheader':Vhedaer,
