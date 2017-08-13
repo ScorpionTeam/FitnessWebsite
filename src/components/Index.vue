@@ -229,25 +229,11 @@
       <div class="number">{{memberCard.cardNo}}</div>
     </div>
     <div class="notice">
-      <div class="item">
-        <div class="fr">2017-06-28</div>
+      <div class="item" v-for="(news,index) in newsList" :key="index" @click="skipToPage('参加活动',news.id)">
+        <div class="fr">{{news.createDate}}</div>
         <div class="mid">
           <sub>New</sub>
-          标题标题标题
-        </div>
-      </div>
-      <div class="item">
-        <div class="fr">2017-06-28</div>
-        <div class="mid">
-          <sub>New</sub>
-          标题标题标题
-        </div>
-      </div>
-      <div class="item">
-        <div class="fr">2017-06-28</div>
-        <div class="mid">
-          <sub>New</sub>
-          标题标题标题
+          {{news.name}}
         </div>
       </div>
     </div>
@@ -373,6 +359,8 @@
           endDate:''
 
         },
+        /*新闻活动列表*/
+        newsList:[],
         /*场馆列表*/
         stadiumList:[],
         stadiumName:'',
@@ -382,9 +370,13 @@
       }
     },
     methods:{
-      skipToPage(name){
+      skipToPage(name,id){
         LoginState.loginCheck()
-        this.$router.push(name)
+        if(id==undefined){
+          this.$router.push(name)
+        }else{
+          this.$router.push({name:name,params:{id:id}})
+        }
       },
       openModal(){
         this.selectSubject = !this.selectSubject;
@@ -419,6 +411,15 @@
           if(res.result==1) {
             self.stadiumName = res.data.name
           }
+        })
+        /*初始化首页活动*/
+        self.$http.get('/activity/home').then(function(res){
+            if(res.result==1){
+                console.log(res)
+              self.newsList = res.data
+            }else {
+                self.$toast('无活动')
+            }
         })
       },
       openStadium(){
