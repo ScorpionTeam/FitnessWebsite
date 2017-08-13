@@ -415,7 +415,6 @@
         /*初始化首页活动*/
         self.$http.get('/activity/home').then(function(res){
             if(res.result==1){
-                console.log(res)
               self.newsList = res.data
             }else {
                 self.$toast('无活动')

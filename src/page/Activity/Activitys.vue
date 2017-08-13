@@ -25,6 +25,7 @@
       <div class="tab">
         <Tabs v-model="tabName" >
           <Tab-pane label="最新活动" name="new">
+            <p style="text-align: center" v-if="newNone">暂无活动！</p>
             <div class="newActivity" v-for='newAct in newActList' @click="joinActivity(newAct.id)">
               <a class="item">
                 <div class="cover">
@@ -43,7 +44,8 @@
               </a>
             </div>
           </Tab-pane>
-          <Tab-pane label="我的活动" name="my">
+          <Tab-pane label="我的活动" name="my" v-if="myNone">
+            <p style="text-align: center">暂无活动！</p>
             <div class="myActivity">
               <div class="item" v-for="myAct in myActList" @click="openDetail(myAct.id)">
                 <a class="inner">
@@ -59,6 +61,7 @@
             </div>
           </Tab-pane>
           <Tab-pane label="往期活动" name="pass">
+            <p style="text-align: center" v-if="pastNone">暂无活动！</p>
             <div class="newActivity" v-for='pastAct in pastActList' @click="openDetail(pastAct.id)">
               <a class="item">
                 <div class="cover">
@@ -91,13 +94,17 @@
         tabName:'new',
         newActList:[],
         pastActList:[],
-        myActList:[]
+        myActList:[],
+        /*无活动标志*/
+        newNone:false,
+        myNone:false,
+        pastNone:false
       }
     },
     methods:{
       /*打开活动详情*/
       openDetail(id){
-          this.$router.push({ name: '活动详情', params:{ id: id }})
+        this.$router.push({ name: '活动详情', params:{ id: id }})
       },
       /*参加活动*/
       joinActivity(id){
@@ -109,6 +116,7 @@
         self.$http.get(url).then(function(res){
           console.log(res)
           if(res.result==1){
+            self.newNone= res.data == undefined?true:false
             self.newActList =res.data
           }
         })
@@ -118,7 +126,8 @@
         let url ='/activity/myActivity?pageNo=1&pageSize=5&memberId='+localStorage.getItem('fitId')
         self.$http.get(url).then(function(res){
           if(res.result==1){
-              self.myActList = res.data
+            self.myNone= res.data == undefined?true:false
+            self.myActList = res.data
           }
         })
       },
@@ -126,7 +135,10 @@
         let self = this;
         let url ='/activity/pastActivity?pageNo=1&pageSize=5&stadiumId='+localStorage.getItem('stadiumId')
         self.$http.get(url).then(function(res){
-           self.pastActList= res.data
+          if(res.result==1){
+            self.pastNone= res.data == undefined?true:false
+            self.pastActList= res.data
+          }
         })
       },
       init(){
