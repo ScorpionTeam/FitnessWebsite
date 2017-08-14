@@ -204,9 +204,9 @@
           </a>
         </div>
         <div class="fr">
-          <a href="" class="btn">
+          <a  class="btn" @click="skipToPage('notice')">
             <Icon type="ios-email-outline" class="i-msg"></Icon>
-            <span class="num-info">3</span>
+            <span class="num-info" v-if="unRed">{{unRedCount}}</span>
           </a>
         </div>
       </div>
@@ -367,7 +367,10 @@
         stadiumName:'',
         /*选课模态*/
         selectSubject:false,
-        stadiumFlag:false
+        stadiumFlag:false,
+        /*未读信息条数*/
+        unRedCount:0,
+        unRed:false
       }
     },
     methods:{
@@ -390,7 +393,7 @@
             self.memberCard = res.data
             let no=''
             for(let i =0;i<self.memberCard.cardNo.length;i++){
-                no+= i%4==0?' '+self.memberCard.cardNo.substring(i,i+1):self.memberCard.cardNo.substring(i,i+1)
+              no+= i%4==0?' '+self.memberCard.cardNo.substring(i,i+1):self.memberCard.cardNo.substring(i,i+1)
             }
             self.memberCard.cardNo = no;
           }else {
@@ -415,11 +418,26 @@
         })
         /*初始化首页活动*/
         self.$http.get('/activity/home').then(function(res){
-            if(res.result==1){
-              self.newsList = res.data
+          if(res.result==1){
+            self.newsList = res.data
+          }else {
+            self.$toast('无活动')
+          }
+        })
+        /*获取未读信息*/
+        self.$http.get('/message/unRead').then(function (res) {
+          if(res.result==1){
+            if(res.data>99){
+              self.unRed = true
+              self.unRedCount = '99+'
+            }else if(res.data==0){
+              self.unRedCount = 0
+              self.unRed = false
             }else {
-                self.$toast('无活动')
+              self.unRed = true
+              self.unRedCount = res.data
             }
+          }
         })
       },
       openStadium(){
@@ -427,7 +445,7 @@
         let self =this;
         self.$http.get('stadium/allStadium').then(function (res) {
           if(res.result==1){
-              self.stadiumList = res.data;
+            self.stadiumList = res.data;
           }
         })
       },

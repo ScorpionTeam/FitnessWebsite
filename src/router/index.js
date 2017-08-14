@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Index from '../components/Index.vue'
 import Introduce from '../page/Stadium/Introduce.vue'
-import Schedule from '../page/Schedule.vue'
+import Schedule from '../page/Schedule/Schedule.vue'
 import  Activitys from'../page/Activity/Activitys.vue'
 import  Question from '../page/Question/Question.vue'
 import  MyQuestion from '../page/Question/MyQuestion.vue'
@@ -21,6 +21,8 @@ import ActivityDetail from '../page/Activity/ActivityDetail.vue'
 import JoinActivity from '../page/Activity/JoinActivity.vue'
 import Experience from '../page/person/Experience.vue'
 import Progress from '../page/person/Progress.vue'
+import Notice from '../page/Notice/Notice.vue'
+import NoticeDetail from '../page/Notice/NoticeDetail.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -134,6 +136,16 @@ export default new Router({
       path:'/lession-submit/:id/:mealFlag',
       name:'团课预约提交',
       component:LessionSubmit
+    },
+    {
+      path:'/notice',
+      name:'消息列表',
+      component:Notice
+    },
+    {
+      path:'/notice-detail:id',
+      name:'消息详情',
+      component:NoticeDetail
     }
   ]
 })
