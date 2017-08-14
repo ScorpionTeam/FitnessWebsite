@@ -41,5 +41,9 @@
 <style scoped rel='stylesheet/scss' lang='scss'>
   .content{
     text-align: center;
+    img{
+      width: 100%;
+      object-fit: cover;
+    }
   }
 </style>

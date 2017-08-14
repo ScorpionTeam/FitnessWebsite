@@ -94,9 +94,10 @@
       }
     }
     .notice{
-
       padding-bottom: 1rem;
       .item{
+        text-decoration: underline;
+        color:blue;
         margin: 1rem  1rem;
         padding: 1rem;
         border-bottom: 1px dashed #ddd;
