@@ -20,7 +20,8 @@
             self.$http.get('/message/messageInfo?id='+this.$route.params.id).then(function(res){
                 let content = document.querySelector('.content')
                 if(res.result==1){
-                    conten.innerHTML = res.data.content
+                    console.log(res.data)
+                    content.innerHTML = res.data.content
                 }
             })
         }
