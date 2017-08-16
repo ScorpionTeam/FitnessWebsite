@@ -143,7 +143,7 @@ export default new Router({
       component:Notice
     },
     {
-      path:'/notice-detail:id',
+      path:'/notice-detail/:id',
       name:'消息详情',
       component:NoticeDetail
     }
