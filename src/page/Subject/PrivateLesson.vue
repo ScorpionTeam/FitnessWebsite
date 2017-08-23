@@ -699,9 +699,11 @@
       },
       /*教练列表滑动*/
       slideStart(e){
+        event.preventDefault()
         this.start = e.touches[0].pageX;
       },
       slideMove(e){
+        event.preventDefault();
         /*根据index判断当前教练id*/
         if(e.changedTouches[0].pageX-this.start>0){
           console.log('向右')

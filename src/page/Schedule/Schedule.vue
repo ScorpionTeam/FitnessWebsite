@@ -65,6 +65,11 @@
       color:#fff;
     }
   }
+  .modal_footer{
+    text-align: center;
+    padding: 5px 0;
+    color: #40AFFE;
+  }
 </style>
 <template>
   <div>
@@ -100,125 +105,10 @@
               <th>周六</th>
             </tr>
             <tr v-for=" week in monthTable">
-              <td v-for=" day in week">
+              <td v-for=" day in week" @click="openDetail(day.day)">
                 <span>{{day.day}}</span>
               </td>
             </tr>
-            <!--<tr>
-              <td>
-                <span>25</span>
-              </td>
-              <td>
-                <span>26</span>
-              </td>
-              <td>
-                <span>1</span>
-              </td>
-              <td>
-                <span>1</span>
-              </td>
-              <td>
-                <span>1</span>
-              </td>
-              <td>
-                <span>1</span>
-              </td>
-              <td>
-                <span>1</span>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <span>25</span>
-              </td>
-              <td>
-                <span>26</span>
-              </td>
-              <td>
-                <span>1</span>
-              </td>
-              <td>
-                <span>1</span>
-              </td>
-              <td>
-                <span>1</span>
-              </td>
-              <td>
-                <span>1</span>
-              </td>
-              <td>
-                <span>1</span>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <span>25</span>
-              </td>
-              <td>
-                <span>26</span>
-              </td>
-              <td>
-                <span>1</span>
-              </td>
-              <td>
-                <span>1</span>
-              </td>
-              <td>
-                <span>1</span>
-              </td>
-              <td>
-                <span>1</span>
-              </td>
-              <td>
-                <span>1</span>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <span>25</span>
-              </td>
-              <td>
-                <span>26</span>
-              </td>
-              <td>
-                <span>1</span>
-              </td>
-              <td>
-                <span>1</span>
-              </td>
-              <td>
-                <span>1</span>
-              </td>
-              <td>
-                <span>1</span>
-              </td>
-              <td>
-                <span>1</span>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <span>25</span>
-              </td>
-              <td>
-                <span>26</span>
-              </td>
-              <td>
-                <span>1</span>
-              </td>
-              <td>
-                <span>1</span>
-              </td>
-              <td>
-                <span>1</span>
-              </td>
-              <td>
-                <span>1</span>
-              </td>
-              <td>
-                <span>1</span>
-              </td>
-            </tr>-->
           </table>
         </div>
       </div>
@@ -241,13 +131,16 @@
         </div>
       </div>
     </div>
+    <Modal v-model="detailFlag" title="日程详情">
+      <div slot="footer" class="modal_footer" @click="closeModal">知道了</div>
+    </Modal>
     <Vfooter></Vfooter>
   </div>
 </template>
 <script>
-  import Header from '../components/Header.vue'
-  import Footer from '../components/Footer.vue'
-  import getTime from '../common/getTime'
+  import Header from '../../components/Header.vue'
+  import Footer from '../../components/Footer.vue'
+  import getTime from '../../common/getTime'
   export default{
     data(){
       return {
@@ -255,7 +148,9 @@
         month:'',
         yearList:[],
         monthList:[],
-        monthTable:[]
+        monthTable:[],
+        /*模态标志*/
+        detailFlag:true
       }
     },
     methods:{
@@ -281,11 +176,11 @@
         let Month = new Date(nex);
         Month.setDate(0)
         let MonthLastDay =Month.getDate()
-        console.log('last='+lastMonthLastDay)
-        console.log('now='+MonthLastDay)
+     /*   console.log('last='+lastMonthLastDay)
+        console.log('now='+MonthLastDay)*/
         /*当月1号所属周几*/
         let nowDay = date.getDay()==0?7:date.getDay();
-        console.log('nowday='+nowDay)
+        /*console.log('nowday='+nowDay)*/
         /*循环获取6行时间*/
         for(let i = 0;i<6;i++){
           let c = []
@@ -325,6 +220,14 @@
           this.monthTable.push(c)
         }
         console.log(this.monthTable)
+      },
+      /*关闭模态*/
+      closeModal(){
+          this.detailFlag=!this.detailFlag
+      },
+      /*查看详情*/
+      openDetail(date){
+          console.log(date)
       }
     },
     created:function () {
