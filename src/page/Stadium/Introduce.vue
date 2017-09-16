@@ -38,11 +38,12 @@
     }
   }
 </script>
-<style scoped rel='stylesheet/scss' lang='scss'>
+<style  rel='stylesheet/scss' lang='scss'>
   .content{
+    overflow: hidden;
     text-align: center;
     img{
-      width: 100%;
+      max-width:100%!important;
       object-fit: cover;
     }
   }

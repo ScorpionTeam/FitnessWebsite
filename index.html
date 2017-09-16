@@ -28,4 +28,23 @@
     <div id="app"></div>
     <!-- built files will be auto injected -->
   </body>
+  <script>
+    /*阻止默认左右滑动事件*/
+      var xx,yy,XX,YY ;
+      document.body.addEventListener('touchstart',function(event){
+        xx = event.targetTouches[0].screenX ;
+        yy = event.targetTouches[0].screenY ;
+      })
+      document.body.addEventListener('touchmove',function(event){
+        XX = event.targetTouches[0].screenX ;
+        YY = event.targetTouches[0].screenY ;
+        if(Math.abs(XX-xx)-Math.abs(YY-yy)>0)  //阻止浏览器默认左右滑动
+        {
+          event.stopPropagation();//阻止冒泡
+          event.preventDefault();//阻止浏览器默认事件
+          swipeY = false ;
+          //左右滑动
+        }
+      })
+  </script>
 </html>

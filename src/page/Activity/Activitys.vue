@@ -44,7 +44,7 @@
               </a>
             </div>
           </Tab-pane>
-          <Tab-pane label="我的活动" name="my" v-if="myNone">
+          <Tab-pane label="我的活动" name="my" >
             <p style="text-align: center">暂无活动！</p>
             <div class="myActivity">
               <div class="item" v-for="myAct in myActList" @click="openDetail(myAct.id)">

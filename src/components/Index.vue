@@ -96,7 +96,6 @@
     .notice{
       padding-bottom: 1rem;
       .item{
-        text-decoration: underline;
         color:blue;
         margin: 1rem  1rem;
         padding: 1rem;
@@ -234,7 +233,7 @@
         <div class="fr">{{news.createDate}}</div>
         <div class="mid">
           <sub>New</sub>
-          {{news.name}}
+          <span style="text-decoration: underline">{{news.name}}</span>
         </div>
       </div>
     </div>
@@ -461,7 +460,6 @@
     created:function () {
       this.init()
       LoginState.loginCheck()
-      console.log(this.$http.defaults.baseURL)
     }
   }
 </script>
